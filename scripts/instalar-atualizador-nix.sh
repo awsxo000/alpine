@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-# Instala somente o aplicativo Atualizar aplicativos Nix.
+# Instala somente o aplicativo Refresh Nix Apps.
 # Não executa Ansible, make, apk ou qualquer role do projeto.
 
 BIN_DIR="$HOME/.local/bin"
@@ -18,7 +18,7 @@ set -u
 export PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:${PATH:-}"
 export XDG_DATA_DIRS="$HOME/.nix-profile/share:/nix/var/nix/profiles/default/share:/usr/local/share:/usr/share"
 
-mensagem="Aplicativos Nix atualizados. Se algum comando ainda não aparecer no terminal, faça logout/login."
+mensagem="Nix application menu refreshed."
 
 rm -f "$HOME"/.cache/ksycoca* 2>/dev/null || true
 
@@ -37,9 +37,9 @@ if command -v update-desktop-database >/dev/null 2>&1; then
 fi
 
 if command -v kdialog >/dev/null 2>&1; then
-    kdialog --title "Aplicativos Nix" --passivepopup "$mensagem" 5 >/dev/null 2>&1 || true
+    kdialog --title "Refresh Nix Apps" --passivepopup "$mensagem" 5 >/dev/null 2>&1 || true
 elif command -v notify-send >/dev/null 2>&1; then
-    notify-send "Aplicativos Nix" "$mensagem" >/dev/null 2>&1 || true
+    notify-send "Refresh Nix Apps" "$mensagem" >/dev/null 2>&1 || true
 else
     printf '%s\n' "$mensagem"
 fi
@@ -58,10 +58,10 @@ chmod 0755 "$SCRIPT_DEST"
 cat > "$DESKTOP_DEST" <<APP
 [Desktop Entry]
 Type=Application
-Name=Atualizar aplicativos Nix
-Name[pt_BR]=Atualizar aplicativos Nix
-Comment=Atualiza o menu do KDE para aplicativos instalados pelo Nix
-Comment[pt_BR]=Atualiza o menu do KDE para aplicativos instalados pelo Nix
+Name=Refresh Nix Apps
+Name[pt_BR]=Refresh Nix Apps
+Comment=Refresh KDE menu entries for Nix-installed applications
+Comment[pt_BR]=Refresh KDE menu entries for Nix-installed applications
 Exec=$SCRIPT_DEST
 Icon=system-software-update
 Terminal=false
@@ -79,5 +79,5 @@ elif command -v kbuildsycoca5 >/dev/null 2>&1; then
     kbuildsycoca5 --noincremental >/dev/null 2>&1 || true
 fi
 
-printf '%s\n' "Aplicativo instalado: Atualizar aplicativos Nix"
-printf '%s\n' "Abra-o pelo menu do KDE com dois cliques."
+printf '%s\n' "Installed: Refresh Nix Apps"
+printf '%s\n' "Launch it from the KDE application menu."

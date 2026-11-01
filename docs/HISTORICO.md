@@ -58,6 +58,10 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 ## [2026-11-01] (18)
 - CORRIGIDO: atualizador agora remove o cache `ksycoca`, executa `xdg-desktop-menu forceupdate` e recarrega o `plasmashell` em segundo plano para atualizar o Kickoff sem reiniciar a máquina.
 
+## [2026-11-01] (19)
+- ALTERADO: aplicativo renomeado para **Refresh Nix Apps**, com nome e descrição em inglês no menu KDE.
+- ALTERADO: README reduzido e reestruturado para uma apresentação mais objetiva e profissional.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

@@ -8,7 +8,7 @@ set -u
 export PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:${PATH:-}"
 export XDG_DATA_DIRS="$HOME/.nix-profile/share:/nix/var/nix/profiles/default/share:/usr/local/share:/usr/share"
 
-mensagem="Aplicativos Nix atualizados. Se algum comando ainda não aparecer no terminal, faça logout/login."
+mensagem="Nix application menu refreshed."
 
 # O Plasma pode manter uma cópia antiga da lista de aplicativos em memória.
 # Remover o cache força o KService a reconstruí-lo com o XDG_DATA_DIRS atual.
@@ -29,9 +29,9 @@ if command -v update-desktop-database >/dev/null 2>&1; then
 fi
 
 if command -v kdialog >/dev/null 2>&1; then
-    kdialog --title "Aplicativos Nix" --passivepopup "$mensagem" 5 >/dev/null 2>&1 || true
+    kdialog --title "Refresh Nix Apps" --passivepopup "$mensagem" 5 >/dev/null 2>&1 || true
 elif command -v notify-send >/dev/null 2>&1; then
-    notify-send "Aplicativos Nix" "$mensagem" >/dev/null 2>&1 || true
+    notify-send "Refresh Nix Apps" "$mensagem" >/dev/null 2>&1 || true
 else
     printf '%s\n' "$mensagem"
 fi
