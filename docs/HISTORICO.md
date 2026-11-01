@@ -55,6 +55,9 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 ## [2026-11-01] (17)
 - ADICIONADO: `scripts/instalar-atualizador-nix.sh`, instalador independente que instala somente o aplicativo, sem Ansible, `make`, `apk`, `doas` ou execução das roles.
 
+## [2026-11-01] (18)
+- CORRIGIDO: atualizador agora remove o cache `ksycoca`, executa `xdg-desktop-menu forceupdate` e recarrega o `plasmashell` em segundo plano para atualizar o Kickoff sem reiniciar a máquina.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

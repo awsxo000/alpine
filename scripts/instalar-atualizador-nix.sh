@@ -20,6 +20,12 @@ export XDG_DATA_DIRS="$HOME/.nix-profile/share:/nix/var/nix/profiles/default/sha
 
 mensagem="Aplicativos Nix atualizados. Se algum comando ainda não aparecer no terminal, faça logout/login."
 
+rm -f "$HOME"/.cache/ksycoca* 2>/dev/null || true
+
+if command -v xdg-desktop-menu >/dev/null 2>&1; then
+    xdg-desktop-menu forceupdate >/dev/null 2>&1 || true
+fi
+
 if command -v kbuildsycoca6 >/dev/null 2>&1; then
     kbuildsycoca6 --noincremental >/dev/null 2>&1 || true
 elif command -v kbuildsycoca5 >/dev/null 2>&1; then
@@ -37,6 +43,15 @@ elif command -v notify-send >/dev/null 2>&1; then
 else
     printf '%s\n' "$mensagem"
 fi
+
+(
+    sleep 1
+    if command -v systemctl >/dev/null 2>&1 && systemctl --user is-active --quiet plasma-plasmashell.service 2>/dev/null; then
+        systemctl --user restart plasma-plasmashell.service >/dev/null 2>&1 || true
+    elif command -v plasmashell >/dev/null 2>&1; then
+        plasmashell --replace >/dev/null 2>&1 &
+    fi
+) &
 APP
 chmod 0755 "$SCRIPT_DEST"
 

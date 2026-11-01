@@ -30,7 +30,8 @@ desligadas. Só serão ativadas em etapas posteriores, alterando explicitamente
 
 O projeto também instala o aplicativo **Atualizar aplicativos Nix** no menu do
 KDE. Ele fica disponível para execução manual com dois cliques e atualiza o
-cache do menu, sem ser executado automaticamente pelo Ansible. Se necessário,
+cache do menu, limpa o cache Sycoca e recarrega o Plasma sem reiniciar a
+máquina, sem ser executado automaticamente pelo Ansible. Se necessário,
 desative sua instalação com `nix_instalar_atualizador_menu: false`.
 
 Se o projeto já estiver instalado e você quiser somente esse aplicativo, sem
