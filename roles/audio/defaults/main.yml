@@ -1,8 +1,11 @@
 ---
 audio_pacotes:
   - pipewire
+  - pipewire-openrc
   - wireplumber
+  - wireplumber-openrc
   - pipewire-pulse
+  - pipewire-pulse-openrc
   - pipewire-alsa
   - pipewire-jack
   - alsa-utils

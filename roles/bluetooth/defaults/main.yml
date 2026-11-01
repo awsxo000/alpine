@@ -1,6 +1,7 @@
 ---
 bluetooth_pacotes:
   - bluez
+  - bluez-openrc
   - bluedevil
   - util-linux-misc
   - kmod

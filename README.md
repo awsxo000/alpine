@@ -2,6 +2,9 @@
 
 Ansible automation for an existing Alpine Linux desktop (`setup-alpine` + `setup-desktop`).
 
+The primary target is Alpine Linux **3.24.3 stable**. Package names and service
+subpackages are validated against the Alpine `v3.24` repositories, not Edge.
+
 The project adds Nix, Steam, Mesa/OpenGL integration and optional desktop services.
 Execution is local through `localhost`; no SSH configuration is required.
 Existing Flatpak exports are preserved in the desktop application environment.

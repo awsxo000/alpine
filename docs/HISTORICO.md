@@ -106,6 +106,10 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 ## [2026-11-01] (29)
 - CORRIGIDO: role `bluetooth` usa `util-linux-misc`, pacote Alpine que fornece o comando `rfkill`; removida a dependência inexistente `rfkill`.
 
+## [2026-11-01] (30)
+- ALTERADO: projeto fixado como alvo principal do Alpine Linux 3.24.3 stable.
+- CORRIGIDO: adicionados os subpacotes OpenRC explícitos `bluez-openrc`, `pipewire-openrc`, `pipewire-pulse-openrc`, `wireplumber-openrc`, `elogind-openrc` e `polkit-openrc`.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

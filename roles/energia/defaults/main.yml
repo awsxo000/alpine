@@ -1,7 +1,9 @@
 ---
 energia_pacotes:
   - elogind
+  - elogind-openrc
   - polkit-elogind
+  - polkit-openrc
 energia_usuario_login: sddm
 energia_configurar_sddm: true
 energia_verificar_swap: true
