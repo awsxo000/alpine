@@ -9,6 +9,9 @@ APP_DIR="$HOME/.local/share/applications"
 SCRIPT_DEST="$BIN_DIR/atualizar-aplicativos-nix.sh"
 DESKTOP_DEST="$APP_DIR/atualizar-aplicativos-nix.desktop"
 
+export PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:${PATH:-}"
+export XDG_DATA_DIRS="$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$HOME/.nix-profile/share:/nix/var/nix/profiles/default/share:/usr/local/share:/usr/share"
+
 mkdir -p "$BIN_DIR" "$APP_DIR"
 
 cat > "$SCRIPT_DEST" <<'APP'
@@ -16,7 +19,7 @@ cat > "$SCRIPT_DEST" <<'APP'
 set -u
 
 export PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:${PATH:-}"
-export XDG_DATA_DIRS="$HOME/.nix-profile/share:/nix/var/nix/profiles/default/share:/usr/local/share:/usr/share"
+export XDG_DATA_DIRS="$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:$HOME/.nix-profile/share:/nix/var/nix/profiles/default/share:/usr/local/share:/usr/share"
 
 mensagem="Nix application menu refreshed."
 
@@ -81,3 +84,4 @@ fi
 
 printf '%s\n' "Installed: Refresh Nix Apps"
 printf '%s\n' "Launch it from the KDE application menu."
+"$SCRIPT_DEST"

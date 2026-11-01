@@ -4,6 +4,7 @@ Ansible automation for an existing Alpine Linux desktop (`setup-alpine` + `setup
 
 The project adds Nix, Steam, Mesa/OpenGL integration and optional desktop services.
 Execution is local through `localhost`; no SSH configuration is required.
+Existing Flatpak exports are preserved in the desktop application environment.
 
 ## Quick start
 

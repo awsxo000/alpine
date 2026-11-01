@@ -62,6 +62,9 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - ALTERADO: aplicativo renomeado para **Refresh Nix Apps**, com nome e descrição em inglês no menu KDE.
 - ALTERADO: README reduzido e reestruturado para uma apresentação mais objetiva e profissional.
 
+## [2026-11-01] (20)
+- CORRIGIDO: `XDG_DATA_DIRS` agora preserva os exports Flatpak do usuário e do sistema ao integrar aplicativos Nix com o KDE.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

@@ -156,7 +156,7 @@
   environment:
     HOME: "{{ usuario_desktop_home }}"
     PATH: "{{ usuario_desktop_home }}/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-    XDG_DATA_DIRS: "{{ usuario_desktop_home }}/.nix-profile/share:/nix/var/nix/profiles/default/share:/usr/local/share:/usr/share"
+    XDG_DATA_DIRS: "{{ usuario_desktop_home }}/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:{{ usuario_desktop_home }}/.nix-profile/share:/nix/var/nix/profiles/default/share:/usr/local/share:/usr/share"
   when:
     - nix_atualizar_menu_kde | bool
     - nix_resultado_pacotes is defined
