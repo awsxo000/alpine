@@ -18,7 +18,7 @@ This bootstraps `make`, Python, Ansible, the required collection and the first
 installation stage:
 
 ```text
-base → nix → steam → nix_opengl
+base → nix → steam → nix_opengl → rede
 ```
 
 To reapply the configuration:

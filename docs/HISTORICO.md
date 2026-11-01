@@ -77,6 +77,12 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 ## [2026-11-01] (23)
 - CORRIGIDO: role `rede` remove explicitamente `networking` e `wpa_supplicant` standalone dos runlevels `boot` e `default` do OpenRC para evitar conflito com o NetworkManager.
 
+## [2026-11-01] (24)
+- AUDITADO: fluxo local, roles ativas/inativas, scripts shell, variáveis e artefatos do repositório.
+- CORRIGIDO: atualização do menu da Steam passa a preservar os exports Flatpak.
+- REMOVIDO: capturas de tela de teste da árvore de código.
+- ADICIONADO: `docs/AUDITORIA.md` com o estado de estabilização antes das próximas roles.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,
