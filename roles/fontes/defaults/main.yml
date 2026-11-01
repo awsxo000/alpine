@@ -6,5 +6,6 @@ fontes_pacotes:
   - font-noto            # cobertura ampla (latino, etc.)
   - font-noto-emoji      # emojis
   - font-noto-cjk        # chinês/japonês/coreano
+  - font-noto-extra      # alfabetos e símbolos adicionais
   - font-inter           # UI moderna
   - font-jetbrains-mono  # terminal/código

@@ -110,6 +110,10 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - ALTERADO: projeto fixado como alvo principal do Alpine Linux 3.24.3 stable.
 - CORRIGIDO: adicionados os subpacotes OpenRC explícitos `bluez-openrc`, `pipewire-openrc`, `pipewire-pulse-openrc`, `wireplumber-openrc`, `elogind-openrc` e `polkit-openrc`.
 
+## [2026-11-01] (31)
+- IMPLEMENTADO: role `fontes` ativada por padrão para cobertura Unicode, CJK, kanji japonês, emoji e símbolos adicionais.
+- ADICIONADO: pacote `font-noto-extra` e atualização explícita do cache do Fontconfig.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

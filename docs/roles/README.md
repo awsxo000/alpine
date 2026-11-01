@@ -10,7 +10,7 @@
 | bluetooth | bluez, bluez-openrc, bluedevil, util-linux-misc, kmod | bluetooth | `bluetooth_habilitado`, `bluetooth_auto_enable`, `bluetooth_userspace_hid`, `bluetooth_instalar_pipewire_spa_bluez` |
 | audio | pipewire, pipewire-openrc, wireplumber, wireplumber-openrc, pipewire-pulse, pipewire-pulse-openrc, pipewire-alsa, pipewire-jack, pavucontrol-qt | serviços OpenRC do usuário | `audio_pacotes`, `audio_runlevels_usuario` |
 | energia | elogind, elogind-openrc, polkit-elogind, polkit-openrc | elogind, polkit | `energia_habilitada`, `energia_configurar_sddm`, `energia_usuario_login` |
-| fontes | fontconfig dejavu liberation noto noto-emoji noto-cjk inter jetbrains-mono | — | `fontes_pacotes_extras` |
+| fontes | fontconfig, font-dejavu, font-liberation, font-noto, font-noto-cjk, font-noto-emoji, font-noto-extra, font-inter, font-jetbrains-mono | — | `fontes_habilitadas`, `fontes_pacotes_extras` |
 
 ## Arquivos gerenciados no alvo
 - `/etc/nix/nix.conf`, `/etc/profile.d/nix-desktop.sh`

@@ -45,5 +45,5 @@ energia_habilitada: true                # elogind + polkit + ações no login
 energia_configurar_sddm: true
 
 # ===== Fontes extras (apk) =====
-fontes_habilitadas: false              # etapa posterior
+fontes_habilitadas: true               # cobertura Unicode, CJK e emoji
 fontes_pacotes_extras: []

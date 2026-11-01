@@ -2,8 +2,8 @@
 
 ## Estado validado
 
-A etapa atual executa `base`, `nix`, `steam`, `nix_opengl`, `rede`, `bluetooth`
-e `audio`. A role `fontes` permanece desativada no inventário de produção.
+A etapa atual executa `base`, `nix`, `steam`, `nix_opengl`, `rede`, `bluetooth`,
+`audio` e `fontes`.
 
 A role `rede` está validada no notebook de testes com NetworkManager, suporte
 Wi-Fi, `plasma-nm`, `eudev`, grupo `plugdev` e remoção dos serviços OpenRC
@@ -24,7 +24,7 @@ backend do NetworkManager, mas não deve ser iniciado como serviço standalone.
 - scripts shell validados com `sh -n`;
 - `git diff --check` sem erros;
 - variáveis do inventário referenciadas nas roles ou no playbook;
-- áudio e fontes não são executados enquanto suas flags estiverem `false`;
+- áudio e fontes são controlados por suas flags no inventário;
 - nenhum ZIP, cache, coleção Ansible ou `host_vars` gerado é versionado.
 
 ## Pontos intencionais

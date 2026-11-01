@@ -5,5 +5,5 @@
     state: present
 
 - name: Atualizar cache de fontes
-  ansible.builtin.command: fc-cache -f
+  ansible.builtin.command: fc-cache -f -v
   changed_when: false
