@@ -1,2 +1,17 @@
 ---
-audio_pacotes: [pipewire, wireplumber, pipewire-pulse, pipewire-alsa, alsa-utils, pavucontrol]
+audio_pacotes:
+  - pipewire
+  - wireplumber
+  - pipewire-pulse
+  - pipewire-alsa
+  - pipewire-jack
+  - alsa-utils
+  - pavucontrol-qt
+audio_grupo_usuario: audio
+audio_servicos_usuario:
+  - pipewire
+  - wireplumber
+  - pipewire-pulse
+audio_runlevels_usuario:
+  - gui
+  - default

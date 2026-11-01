@@ -2,8 +2,8 @@
 
 ## Estado validado
 
-A etapa atual executa `base`, `nix`, `steam`, `nix_opengl` e `rede`. As roles
-`audio` e `fontes` permanecem desativadas no inventário de produção.
+A etapa atual executa `base`, `nix`, `steam`, `nix_opengl`, `rede`, `bluetooth`
+e `audio`. A role `fontes` permanece desativada no inventário de produção.
 
 A role `rede` está validada no notebook de testes com NetworkManager, suporte
 Wi-Fi, `plasma-nm`, `eudev`, grupo `plugdev` e remoção dos serviços OpenRC
@@ -36,3 +36,7 @@ manter responsabilidades separadas.
 
 Antes de ativar uma nova role, executar `make simular` e revisar as mudanças.
 Depois da aplicação, validar no notebook e criar um novo snapshot de referência.
+
+A role de áudio usa os serviços de usuário do OpenRC e não combina esse método
+com `pipewire-launcher`. O primeiro diagnóstico pode indicar que PipeWire ainda
+não está disponível até o próximo logout/login.

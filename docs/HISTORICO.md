@@ -93,6 +93,11 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - ADICIONADO: diagnóstico com status do serviço, rádio `rfkill` e controladores `bluetoothctl`.
 - ALTERADO: Bluetooth ativado como etapa atual; integração `pipewire-spa-bluez` permanece opcional para a futura role de áudio.
 
+## [2026-11-01] (27)
+- ALTERADO: role `audio` passa a configurar PipeWire, WirePlumber, interfaces PulseAudio/ALSA/JACK e serviços OpenRC de usuário para Wayland e X11.
+- ALTERADO: `pavucontrol-qt` substitui o mixer GTK na integração principal com Plasma.
+- ALTERADO: áudio Bluetooth habilitado com `pipewire-spa-bluez`; a role não usa o legado `pipewire-launcher`.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

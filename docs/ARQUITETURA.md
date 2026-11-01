@@ -22,9 +22,9 @@ sobre o musl do Alpine.
 
 ## Etapas de ativação
 
-A primeira execução habilita `base`, `nix`, `steam`, `nix_opengl`, `rede` e a
-etapa atual de `bluetooth`. As roles `audio` e `fontes` permanecem
-desabilitadas até a validação das etapas anteriores.
+A primeira execução habilita `base`, `nix`, `steam`, `nix_opengl`, `rede`,
+`bluetooth` e `audio`. A role `fontes` permanece desabilitada até a validação
+das etapas anteriores.
 
 ## Convenções
 - Uma role = uma responsabilidade; variáveis ajustáveis em `group_vars`, padrões em `defaults/`.

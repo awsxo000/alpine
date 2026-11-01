@@ -18,7 +18,7 @@ This bootstraps `make`, Python, Ansible, the required collection and the first
 installation stage:
 
 ```text
-base → nix → steam → nix_opengl → rede → bluetooth
+base → nix → steam → nix_opengl → rede → bluetooth → audio
 ```
 
 To reapply the configuration:
@@ -35,20 +35,21 @@ make dependencias
 
 ## Optional roles
 
-Audio and font roles are implemented but disabled by default. NetworkManager
-and Bluetooth are the current validation stages:
+Fonts remain disabled. NetworkManager, Bluetooth and PipeWire are the current
+validation stages:
 
 ```yaml
 rede_habilitada: true
 
 bluetooth_habilitado: true
 
-audio_habilitado: false
+audio_habilitado: true
 
 fontes_habilitadas: false
 ```
 
-After applying the network stage, log in again so the `plugdev` group takes
+After applying the network, Bluetooth and audio stages, log out and back in so
+the `plugdev`, `lp` and `audio` groups and the PipeWire user services take
 effect in the desktop session.
 
 ## Refresh Nix Apps

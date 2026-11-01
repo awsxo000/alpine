@@ -1,13 +1,60 @@
 ---
-# Na maioria dos desktops o PipeWire sobe sozinho após relogin.
-# NÃO ativar pipewire-launcher e serviço de usuário OpenRC ao mesmo tempo.
-- name: Instalar PipeWire + WirePlumber
+- name: Instalar PipeWire, WirePlumber e compatibilidade de áudio
   community.general.apk:
     name: "{{ audio_pacotes }}"
     state: present
 
-- name: Garantir usuário no grupo audio
+- name: Garantir usuário no grupo de áudio
   ansible.builtin.user:
     name: "{{ usuario_desktop }}"
-    groups: audio
+    groups: "{{ audio_grupo_usuario }}"
     append: true
+
+- name: Habilitar serviços PipeWire no runlevel de usuário
+  ansible.builtin.command: "rc-update -U add {{ item.0 }} {{ item.1 }}"
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+  loop: "{{ audio_servicos_usuario | product(audio_runlevels_usuario) | list }}"
+  loop_control:
+    label: "{{ item.0 }} -> {{ item.1 }}"
+  changed_when: false
+  failed_when: false
+
+- name: Consultar runlevels de usuário do OpenRC
+  ansible.builtin.command: rc-status -Ur
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+  register: audio_status_runlevels
+  changed_when: false
+  failed_when: false
+
+- name: Consultar estado do PipeWire
+  ansible.builtin.command: wpctl status
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+  register: audio_status_wpctl
+  changed_when: false
+  failed_when: false
+
+- name: Consultar compatibilidade PulseAudio
+  ansible.builtin.command: pactl info
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+  register: audio_status_pactl
+  changed_when: false
+  failed_when: false
+
+- name: Exibir diagnóstico do áudio
+  ansible.builtin.debug:
+    msg:
+      - "{{ audio_status_runlevels.stdout | default('user runlevels unavailable') }}"
+      - "{{ audio_status_wpctl.stdout | default('PipeWire session unavailable until relogin') }}"
+      - "{{ audio_status_pactl.stdout | default('PulseAudio compatibility unavailable until relogin') }}"

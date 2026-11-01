@@ -35,10 +35,10 @@ rede_desabilitar_servicos_legados: true # troca do OpenRC legado para NetworkMan
 
 # ===== Bluetooth =====
 bluetooth_habilitado: true              # etapa atual: BlueZ + KDE
-bluetooth_instalar_pipewire_spa_bluez: false # será ativado com a role de áudio
+bluetooth_instalar_pipewire_spa_bluez: true  # suporte de áudio Bluetooth
 
 # ===== Áudio =====
-audio_habilitado: false                # etapa posterior
+audio_habilitado: true                 # etapa atual: PipeWire + WirePlumber
 
 # ===== Fontes extras (apk) =====
 fontes_habilitadas: false              # etapa posterior
