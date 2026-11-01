@@ -38,3 +38,28 @@
     name: networkmanager
     enabled: true
     state: started
+
+- name: Verificar estado do serviço NetworkManager
+  ansible.builtin.command: rc-service networkmanager status
+  register: rede_status_networkmanager
+  changed_when: false
+  failed_when: false
+
+- name: Consultar estado geral do NetworkManager
+  ansible.builtin.command: nmcli general status
+  register: rede_status_nmcli
+  changed_when: false
+  failed_when: false
+
+- name: Consultar dispositivos gerenciados pelo NetworkManager
+  ansible.builtin.command: nmcli device status
+  register: rede_dispositivos_nmcli
+  changed_when: false
+  failed_when: false
+
+- name: Exibir diagnóstico do NetworkManager
+  ansible.builtin.debug:
+    msg:
+      - "{{ rede_status_networkmanager.stdout | default('status unavailable') }}"
+      - "{{ rede_status_nmcli.stdout | default('nmcli unavailable') }}"
+      - "{{ rede_dispositivos_nmcli.stdout | default('device list unavailable') }}"

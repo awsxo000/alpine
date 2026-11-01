@@ -6,7 +6,7 @@
 | nix | nix nix-openrc | nix-daemon (default) | `nix_canal_versao`, `nix_habilitar_flakes` (false), `nix_permitir_nao_livres`, `nix_pacotes_usuario`, `usuario_desktop` |
 | steam | Steam pelo Nixpkgs | — | `steam_habilitado`, `steam_pacote`, `steam_atualizar_menu_kde` |
 | nix_opengl | (Nix) mesa, pkgsi686Linux.mesa | local (default) | `nix_opengl_habilitado`, `nix_opengl_driver_teste` |
-| rede | networkmanager (+wifi, cli) wpa_supplicant | networkmanager | `rede_dhcp`, `rede_desabilitar_servicos_legados` |
+| rede | networkmanager (+wifi, cli), plasma-nm, eudev, wpa_supplicant | networkmanager, udev | `rede_dhcp`, `rede_wifi_backend`, `rede_grupo_usuario`, `rede_desabilitar_servicos_legados` |
 | audio | pipewire wireplumber pipewire-pulse pipewire-alsa alsa-utils pavucontrol | (do usuário, por sessão) | `audio_pacotes` |
 | fontes | fontconfig dejavu liberation noto noto-emoji noto-cjk inter jetbrains-mono | — | `fontes_pacotes_extras` |
 

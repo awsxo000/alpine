@@ -70,6 +70,10 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - ADICIONADO: usuário desktop no grupo `plugdev` e configuração do NetworkManager para Plasma.
 - ALTERADO: notebook de testes habilita a troca dos serviços legados para NetworkManager; áudio e fontes permanecem desabilitados.
 
+## [2026-11-01] (22)
+- ADICIONADO: diagnóstico pós-configuração com `rc-service`, `nmcli general status` e `nmcli device status`.
+- ADICIONADO: documentação específica da role `rede` com escopo, variáveis e procedimento de sessão.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,
