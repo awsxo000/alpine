@@ -6,7 +6,8 @@ Configures Bluetooth on an Alpine Linux KDE desktop using BlueZ.
 
 The role:
 
-- installs `bluez`, `bluedevil`, `rfkill` and kernel-module tooling;
+- installs `bluez`, `bluedevil`, `util-linux-misc` (which provides `rfkill`)
+  and kernel-module tooling;
 - adds the desktop user to the `lp` group;
 - loads `btusb` and `uhid` and persists both modules at boot;
 - enables automatic Bluetooth power-on by default;

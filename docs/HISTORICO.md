@@ -103,6 +103,9 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - ADICIONADO: diagnóstico de swap e capacidades `loginctl` para suspensão, hibernação e hybrid sleep.
 - ALTERADO: hibernação não configura automaticamente o bootloader; exige swap e parâmetro `resume=` compatível.
 
+## [2026-11-01] (29)
+- CORRIGIDO: role `bluetooth` usa `util-linux-misc`, pacote Alpine que fornece o comando `rfkill`; removida a dependência inexistente `rfkill`.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

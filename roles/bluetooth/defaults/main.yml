@@ -2,7 +2,7 @@
 bluetooth_pacotes:
   - bluez
   - bluedevil
-  - rfkill
+  - util-linux-misc
   - kmod
 bluetooth_grupo_usuario: lp
 bluetooth_auto_enable: true
