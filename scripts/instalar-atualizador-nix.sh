@@ -49,6 +49,9 @@ fi
 
 (
     sleep 1
+    if command -v systemctl >/dev/null 2>&1; then
+        systemctl --user import-environment PATH XDG_DATA_DIRS >/dev/null 2>&1 || true
+    fi
     if command -v systemctl >/dev/null 2>&1 && systemctl --user is-active --quiet plasma-plasmashell.service 2>/dev/null; then
         systemctl --user restart plasma-plasmashell.service >/dev/null 2>&1 || true
     elif command -v plasmashell >/dev/null 2>&1; then
