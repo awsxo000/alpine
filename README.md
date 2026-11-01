@@ -18,7 +18,7 @@ This bootstraps `make`, Python, Ansible, the required collection and the first
 installation stage:
 
 ```text
-base → nix → steam → nix_opengl → rede
+base → nix → steam → nix_opengl → rede → bluetooth
 ```
 
 To reapply the configuration:
@@ -35,11 +35,13 @@ make dependencias
 
 ## Optional roles
 
-Audio and font roles are implemented but disabled by default. NetworkManager is
-the current validation stage:
+Audio and font roles are implemented but disabled by default. NetworkManager
+and Bluetooth are the current validation stages:
 
 ```yaml
 rede_habilitada: true
+
+bluetooth_habilitado: true
 
 audio_habilitado: false
 

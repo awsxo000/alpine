@@ -1,0 +1,13 @@
+---
+bluetooth_pacotes:
+  - bluez
+  - bluedevil
+  - rfkill
+  - kmod
+bluetooth_grupo_usuario: lp
+bluetooth_auto_enable: true
+bluetooth_experimental: false
+bluetooth_userspace_hid: true
+bluetooth_desbloquear_rfkill: true
+bluetooth_instalar_pipewire_spa_bluez: false
+bluetooth_pacote_pipewire_spa_bluez: pipewire-spa-bluez

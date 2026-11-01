@@ -1,0 +1,11 @@
+# Gerenciado pelo Ansible - role bluetooth
+[General]
+Experimental={{ 'true' if bluetooth_experimental | bool else 'false' }}
+
+[Policy]
+AutoEnable={{ 'true' if bluetooth_auto_enable | bool else 'false' }}
+
+[LE]
+MinConnectionInterval=7
+MaxConnectionInterval=16
+ConnectionLatency=0

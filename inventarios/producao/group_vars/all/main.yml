@@ -33,6 +33,10 @@ nix_opengl_driver_teste: radeonsi_dri.so   # AMD. Intel: iris_dri.so | Nouveau: 
 rede_habilitada: true                  # etapa atual: NetworkManager
 rede_desabilitar_servicos_legados: true # troca do OpenRC legado para NetworkManager
 
+# ===== Bluetooth =====
+bluetooth_habilitado: true              # etapa atual: BlueZ + KDE
+bluetooth_instalar_pipewire_spa_bluez: false # será ativado com a role de áudio
+
 # ===== Áudio =====
 audio_habilitado: false                # etapa posterior
 

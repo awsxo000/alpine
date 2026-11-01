@@ -88,6 +88,11 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - ALTERADO: evidências permanecem na branch principal, mas são excluídas dos pacotes ZIP de Release.
 - ADICIONADO: `scripts/empacotar-release.sh`, que cria o ZIP e valida a exclusão das evidências.
 
+## [2026-11-01] (26)
+- ADICIONADO: role `bluetooth` com BlueZ, Bluedevil, `rfkill`, `btusb`, `uhid`, grupo `lp` e serviço OpenRC `bluetooth`.
+- ADICIONADO: diagnóstico com status do serviço, rádio `rfkill` e controladores `bluetoothctl`.
+- ALTERADO: Bluetooth ativado como etapa atual; integração `pipewire-spa-bluez` permanece opcional para a futura role de áudio.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

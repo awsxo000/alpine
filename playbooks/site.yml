@@ -13,5 +13,6 @@
     - { role: steam,      tags: [steam], when: steam_habilitado | bool }
     - { role: nix_opengl, tags: [nix_opengl], when: nix_opengl_habilitado | bool }
     - { role: rede,       tags: [rede],   when: rede_habilitada | bool }
+    - { role: bluetooth,  tags: [bluetooth], when: bluetooth_habilitado | bool }
     - { role: audio,      tags: [audio],  when: audio_habilitado | bool }
     - { role: fontes,     tags: [fontes], when: fontes_habilitadas | bool }

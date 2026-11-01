@@ -1,0 +1,97 @@
+---
+- name: Instalar pacotes Bluetooth
+  community.general.apk:
+    name: "{{ bluetooth_pacotes }}"
+    state: present
+
+- name: Instalar integração opcional do PipeWire para Bluetooth
+  community.general.apk:
+    name: "{{ bluetooth_pacote_pipewire_spa_bluez }}"
+    state: present
+  when: bluetooth_instalar_pipewire_spa_bluez | bool
+
+- name: Adicionar usuário desktop ao grupo lp
+  ansible.builtin.user:
+    name: "{{ usuario_desktop }}"
+    groups: "{{ bluetooth_grupo_usuario }}"
+    append: true
+
+- name: Garantir diretório de configuração do BlueZ
+  ansible.builtin.file:
+    path: /etc/bluetooth
+    state: directory
+    mode: "0755"
+
+- name: Criar diretório de módulos persistentes
+  ansible.builtin.file:
+    path: /etc/modules-load.d
+    state: directory
+    mode: "0755"
+
+- name: Carregar módulo btusb no boot
+  ansible.builtin.copy:
+    dest: /etc/modules-load.d/btusb.conf
+    content: "# Bluetooth USB controller\nbtusb\n"
+    mode: "0644"
+
+- name: Carregar módulo uhid no boot
+  ansible.builtin.copy:
+    dest: /etc/modules-load.d/uhid.conf
+    content: "# Userspace HID support for Bluetooth devices\nuhid\n"
+    mode: "0644"
+  when: bluetooth_userspace_hid | bool
+
+- name: Carregar módulo btusb agora
+  ansible.builtin.command: modprobe btusb
+  changed_when: false
+  failed_when: false
+
+- name: Carregar módulo uhid agora
+  ansible.builtin.command: modprobe uhid
+  changed_when: false
+  failed_when: false
+  when: bluetooth_userspace_hid | bool
+
+- name: Configurar BlueZ
+  ansible.builtin.template:
+    src: main.conf.j2
+    dest: /etc/bluetooth/main.conf
+    mode: "0644"
+  notify: Reiniciar Bluetooth
+
+- name: Desbloquear rádio Bluetooth por software
+  ansible.builtin.command: rfkill unblock bluetooth
+  changed_when: false
+  failed_when: false
+  when: bluetooth_desbloquear_rfkill | bool
+
+- name: Habilitar e iniciar serviço Bluetooth
+  ansible.builtin.service:
+    name: bluetooth
+    enabled: true
+    state: started
+
+- name: Verificar serviço Bluetooth
+  ansible.builtin.command: rc-service bluetooth status
+  register: bluetooth_status_service
+  changed_when: false
+  failed_when: false
+
+- name: Verificar bloqueio do rádio Bluetooth
+  ansible.builtin.command: rfkill list bluetooth
+  register: bluetooth_status_rfkill
+  changed_when: false
+  failed_when: false
+
+- name: Listar controladores Bluetooth
+  ansible.builtin.command: bluetoothctl list
+  register: bluetooth_status_controllers
+  changed_when: false
+  failed_when: false
+
+- name: Exibir diagnóstico do Bluetooth
+  ansible.builtin.debug:
+    msg:
+      - "{{ bluetooth_status_service.stdout | default('service status unavailable') }}"
+      - "{{ bluetooth_status_rfkill.stdout | default('rfkill unavailable') }}"
+      - "{{ bluetooth_status_controllers.stdout | default('no controller detected') }}"

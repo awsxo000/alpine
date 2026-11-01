@@ -7,6 +7,7 @@
 | steam | Steam pelo Nixpkgs | — | `steam_habilitado`, `steam_pacote`, `steam_atualizar_menu_kde` |
 | nix_opengl | (Nix) mesa, pkgsi686Linux.mesa | local (default) | `nix_opengl_habilitado`, `nix_opengl_driver_teste` |
 | rede | networkmanager (+wifi, cli), plasma-nm, eudev, wpa_supplicant | networkmanager, udev | `rede_dhcp`, `rede_wifi_backend`, `rede_grupo_usuario`, `rede_desabilitar_servicos_legados` |
+| bluetooth | bluez, bluedevil, rfkill, kmod | bluetooth | `bluetooth_habilitado`, `bluetooth_auto_enable`, `bluetooth_userspace_hid`, `bluetooth_instalar_pipewire_spa_bluez` |
 | audio | pipewire wireplumber pipewire-pulse pipewire-alsa alsa-utils pavucontrol | (do usuário, por sessão) | `audio_pacotes` |
 | fontes | fontconfig dejavu liberation noto noto-emoji noto-cjk inter jetbrains-mono | — | `fontes_pacotes_extras` |
 

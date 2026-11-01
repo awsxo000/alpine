@@ -16,14 +16,15 @@ sobre o musl do Alpine.
 3. **steam** – Steam pelo Nixpkgs, com pacotes não livres habilitados
 4. **nix_opengl** (opcional) – Mesa do Nix + links `/run/opengl-driver*` para apps FHS como o Steam
 5. **rede** – NetworkManager
-6. **audio** – PipeWire + WirePlumber
-7. **fontes** – conjunto de fontes
+6. **bluetooth** – BlueZ + Bluedevil + módulos de hardware
+7. **audio** – PipeWire + WirePlumber
+8. **fontes** – conjunto de fontes
 
 ## Etapas de ativação
 
-A primeira execução habilita `base`, `nix`, `steam`, `nix_opengl` e a etapa
-atual de `rede` com NetworkManager. As roles `audio` e `fontes` permanecem
-desabilitadas até a validação da rede.
+A primeira execução habilita `base`, `nix`, `steam`, `nix_opengl`, `rede` e a
+etapa atual de `bluetooth`. As roles `audio` e `fontes` permanecem
+desabilitadas até a validação das etapas anteriores.
 
 ## Convenções
 - Uma role = uma responsabilidade; variáveis ajustáveis em `group_vars`, padrões em `defaults/`.
