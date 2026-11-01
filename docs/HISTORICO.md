@@ -114,6 +114,10 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - IMPLEMENTADO: role `fontes` ativada por padrão para cobertura Unicode, CJK, kanji japonês, emoji e símbolos adicionais.
 - ADICIONADO: pacote `font-noto-extra` e atualização explícita do cache do Fontconfig.
 
+## [2026-11-01] (32)
+- ALTERADO: hibernação, hybrid sleep e suspend-then-hibernate ficam desabilitados por padrão na role `energia`.
+- ADICIONADO: variável `energia_habilitar_hibernacao`, que permite reativar essas ações somente após configurar swap e `resume=` adequados.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

@@ -12,6 +12,7 @@ energia via `loginctl`. O polkit deve ser integrado ao elogind para autorizaçõ
 com contexto de sessão. A hibernação exige swap e um parâmetro de kernel
 `resume=` apontando para o dispositivo ou arquivo de swap correto.
 
-A role autoriza apenas ações de energia ao usuário `sddm` na tela de login. Não
-é concedido acesso root geral ao SDDM e o bootloader não é alterado
-automaticamente.
+A role autoriza ações de energia ao usuário `sddm` na tela de login. Por padrão,
+hibernação, hybrid sleep e suspend-then-hibernate ficam desabilitados, pois
+exigem swap persistente adequada e configuração de retomada. Não é concedido
+acesso root geral ao SDDM e o bootloader não é alterado automaticamente.

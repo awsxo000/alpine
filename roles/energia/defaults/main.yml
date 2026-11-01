@@ -7,3 +7,4 @@ energia_pacotes:
 energia_usuario_login: sddm
 energia_configurar_sddm: true
 energia_verificar_swap: true
+energia_habilitar_hibernacao: false
