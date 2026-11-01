@@ -14,7 +14,8 @@ The role:
 - adds the desktop user to `plugdev`;
 - enables and starts the OpenRC `networkmanager` service;
 - optionally stops and disables the legacy `networking` and
-  `wpa_supplicant` services;
+  `wpa_supplicant` services and removes them from the `boot` and `default`
+  OpenRC runlevels;
 - checks the NetworkManager service and reports the device state.
 
 ## Variables

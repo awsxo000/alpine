@@ -33,6 +33,20 @@
   when: rede_desabilitar_servicos_legados | bool
   failed_when: false
 
+- name: Remover networking dos runlevels do OpenRC
+  ansible.builtin.command: rc-update del networking {{ item }}
+  loop: [boot, default]
+  when: rede_desabilitar_servicos_legados | bool
+  changed_when: false
+  failed_when: false
+
+- name: Remover wpa_supplicant standalone dos runlevels do OpenRC
+  ansible.builtin.command: rc-update del wpa_supplicant {{ item }}
+  loop: [boot, default]
+  when: rede_desabilitar_servicos_legados | bool
+  changed_when: false
+  failed_when: false
+
 - name: Habilitar NetworkManager
   ansible.builtin.service:
     name: networkmanager
