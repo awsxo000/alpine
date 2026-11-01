@@ -1,0 +1,45 @@
+---
+- name: Confirmar que pacotes não livres estão habilitados
+  ansible.builtin.assert:
+    that: nix_permitir_nao_livres | bool
+    fail_msg: >-
+      A role steam exige nix_permitir_nao_livres=true para instalar
+      {{ steam_pacote }} pelo Nixpkgs.
+
+- name: Listar pacotes do perfil do usuário
+  ansible.builtin.command: nix-env -q
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+  register: steam_pacotes_instalados
+  changed_when: false
+
+- name: Instalar Steam no perfil do usuário
+  ansible.builtin.command: "nix-env -iA {{ nix_canal_nome }}.{{ steam_pacote }}"
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+  when: >-
+    steam_pacotes_instalados.stdout_lines
+    | select('match', '^' ~ steam_pacote ~ '-')
+    | list
+    | length == 0
+  register: steam_resultado_instalacao
+  changed_when: true
+
+- name: Atualizar cache de menu do KDE após instalar Steam
+  ansible.builtin.command: kbuildsycoca6 --noincremental
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+    PATH: "{{ usuario_desktop_home }}/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    XDG_DATA_DIRS: "{{ usuario_desktop_home }}/.nix-profile/share:/nix/var/nix/profiles/default/share:/usr/local/share:/usr/share"
+  when:
+    - steam_atualizar_menu_kde | bool
+    - steam_resultado_instalacao is defined
+    - steam_resultado_instalacao is changed
+  changed_when: false
+  failed_when: false

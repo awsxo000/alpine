@@ -1,0 +1,2 @@
+---
+base_pacotes: [doas, bash, curl, git, shadow]

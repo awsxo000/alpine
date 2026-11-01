@@ -1,0 +1,5 @@
+---
+- name: Reiniciar nix-daemon
+  ansible.builtin.service:
+    name: nix-daemon
+    state: restarted

@@ -1,0 +1,4 @@
+---
+rede_pacotes: [networkmanager, networkmanager-wifi, networkmanager-cli, wpa_supplicant]
+rede_dhcp: internal
+rede_wifi_backend: wpa_supplicant

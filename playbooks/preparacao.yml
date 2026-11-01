@@ -1,0 +1,9 @@
+---
+# Roda UMA vez: Alpine mínimo não traz Python.
+- name: Preparação - instalar Python no alvo
+  hosts: desktops
+  gather_facts: false
+  tasks:
+    - name: Instalar python3 via raw
+      ansible.builtin.raw: apk add --no-cache python3
+      changed_when: true

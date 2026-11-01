@@ -1,0 +1,6 @@
+# Gerenciado pelo Ansible - role nix
+# Mantém os padrões do pacote Alpine; só o que for explicitamente pedido.
+{% if nix_habilitar_flakes %}
+experimental-features = nix-command flakes
+{% endif %}
+{{ nix_conf_extra }}

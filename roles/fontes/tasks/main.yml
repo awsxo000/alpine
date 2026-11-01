@@ -1,0 +1,9 @@
+---
+- name: Instalar fontes
+  community.general.apk:
+    name: "{{ fontes_pacotes + fontes_pacotes_extras }}"
+    state: present
+
+- name: Atualizar cache de fontes
+  ansible.builtin.command: fc-cache -f
+  changed_when: false

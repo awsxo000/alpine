@@ -1,0 +1,8 @@
+# Gerenciado pelo Ansible - role nix
+# Faz apps instalados via Nix (menus, ícones, fontes) aparecerem no desktop.
+if [ -d "$HOME/.nix-profile/bin" ]; then
+  export PATH="$HOME/.nix-profile/bin:${PATH:-}"
+fi
+if [ -d "$HOME/.nix-profile" ]; then
+  export XDG_DATA_DIRS="$HOME/.nix-profile/share:/nix/var/nix/profiles/default/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+fi

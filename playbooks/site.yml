@@ -1,0 +1,17 @@
+---
+- name: Camada extra sobre o Alpine Desktop
+  hosts: desktops
+  pre_tasks:
+    - name: Exigir usuario_desktop definido
+      ansible.builtin.assert:
+        that: usuario_desktop is defined and usuario_desktop | length > 0
+        fail_msg: "usuario_desktop não definido. Rode: sh scripts/preparar-ansible.sh"
+      tags: [always]
+  roles:
+    - { role: base,       tags: [base] }
+    - { role: nix,        tags: [nix] }
+    - { role: steam,      tags: [steam], when: steam_habilitado | bool }
+    - { role: nix_opengl, tags: [nix_opengl], when: nix_opengl_habilitado | bool }
+    - { role: rede,       tags: [rede],   when: rede_habilitada | bool }
+    - { role: audio,      tags: [audio],  when: audio_habilitado | bool }
+    - { role: fontes,     tags: [fontes], when: fontes_habilitadas | bool }

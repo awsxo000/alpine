@@ -1,0 +1,6 @@
+.cache/
+.collections/
+*.retry
+.vault_pass
+vault.yml.dec
+inventarios/producao/host_vars/localhost.yml

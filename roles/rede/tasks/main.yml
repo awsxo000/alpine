@@ -1,0 +1,25 @@
+---
+- name: Instalar NetworkManager
+  community.general.apk:
+    name: "{{ rede_pacotes }}"
+    state: present
+
+- name: Configurar NetworkManager
+  ansible.builtin.template:
+    src: NetworkManager.conf.j2
+    dest: /etc/NetworkManager/NetworkManager.conf
+    mode: "0644"
+  notify: Reiniciar NetworkManager
+
+- name: Desabilitar serviços de rede legados (opcional)
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: false
+  loop: [networking, wpa_supplicant]
+  when: rede_desabilitar_servicos_legados | bool
+
+- name: Habilitar NetworkManager
+  ansible.builtin.service:
+    name: networkmanager
+    enabled: true
+    state: started

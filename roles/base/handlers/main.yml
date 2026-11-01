@@ -1,0 +1,4 @@
+---
+- name: Atualizar índice apk
+  community.general.apk:
+    update_cache: true

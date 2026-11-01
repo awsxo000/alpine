@@ -1,0 +1,129 @@
+---
+- name: Instalar Nix e script OpenRC
+  community.general.apk:
+    name: "{{ nix_pacotes }}"
+    state: present
+
+- name: Ler grupos do sistema
+  ansible.builtin.getent:
+    database: group
+
+- name: Descobrir grupo de acesso ao Nix
+  ansible.builtin.set_fact:
+    nix_grupo: "{{ nix_grupos_candidatos | select('in', ansible_facts['getent_group']) | first | default('') }}"
+
+- name: Falhar se o grupo do Nix não existir
+  ansible.builtin.assert:
+    that: nix_grupo | length > 0
+    fail_msg: "Nenhum grupo {{ nix_grupos_candidatos }} encontrado. Rode: getent group | grep nix"
+
+- name: Adicionar usuário ao grupo do Nix
+  ansible.builtin.user:
+    name: "{{ usuario_desktop }}"
+    groups: "{{ nix_grupo }}"
+    append: true
+
+- name: Configurar /etc/nix/nix.conf
+  ansible.builtin.template:
+    src: nix.conf.j2
+    dest: /etc/nix/nix.conf
+    mode: "0644"
+  notify: Reiniciar nix-daemon
+
+- name: Integração XDG (menus, ícones, fontes do Nix)
+  ansible.builtin.template:
+    src: nix-desktop.sh.j2
+    dest: /etc/profile.d/nix-desktop.sh
+    mode: "0644"
+
+- name: Diretório de config do nixpkgs do usuário
+  ansible.builtin.file:
+    path: "{{ usuario_desktop_home }}/.config/nixpkgs"
+    state: directory
+    owner: "{{ usuario_desktop }}"
+    group: "{{ usuario_desktop }}"
+    mode: "0755"
+
+- name: config.nix do usuário (allowUnfree)
+  ansible.builtin.template:
+    src: nixpkgs-config.nix.j2
+    dest: "{{ usuario_desktop_home }}/.config/nixpkgs/config.nix"
+    owner: "{{ usuario_desktop }}"
+    group: "{{ usuario_desktop }}"
+    mode: "0644"
+
+- name: Habilitar nix-daemon no boot
+  ansible.builtin.service:
+    name: nix-daemon
+    enabled: true
+    state: started
+
+- name: Listar canais do usuário
+  ansible.builtin.command: nix-channel --list
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+  register: nix_canais
+  changed_when: false
+
+- name: Definir canal estável (adiciona ou troca a URL)
+  ansible.builtin.command: "nix-channel --add {{ nix_canal_url }} {{ nix_canal_nome }}"
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+  when: (nix_canal_nome ~ ' ' ~ nix_canal_url) not in nix_canais.stdout
+  register: nix_canal_alterado
+  changed_when: true
+
+- name: Atualizar canais
+  ansible.builtin.command: nix-channel --update
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+  when: nix_canal_alterado is changed
+  changed_when: true
+
+- name: Listar pacotes do perfil Nix
+  ansible.builtin.command: nix-env -q
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+  register: nix_instalados
+  changed_when: false
+  when: nix_pacotes_usuario | length > 0
+
+- name: Inicializar lista de pacotes instalados quando não há pacotes declarados
+  ansible.builtin.set_fact:
+    nix_instalados:
+      stdout_lines: []
+  when: nix_pacotes_usuario | length == 0
+
+- name: Instalar pacotes no perfil do usuário
+  ansible.builtin.command: "nix-env -iA {{ nix_canal_nome }}.{{ item }}"
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+  loop: "{{ nix_pacotes_usuario }}"
+  when: nix_instalados.stdout_lines | select('match', '^' ~ item ~ '-[0-9]') | list | length == 0
+  register: nix_resultado_pacotes
+  changed_when: true
+
+- name: Atualizar cache de menu do KDE
+  ansible.builtin.command: kbuildsycoca6 --noincremental
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+    PATH: "{{ usuario_desktop_home }}/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    XDG_DATA_DIRS: "{{ usuario_desktop_home }}/.nix-profile/share:/nix/var/nix/profiles/default/share:/usr/local/share:/usr/share"
+  when:
+    - nix_atualizar_menu_kde | bool
+    - nix_resultado_pacotes is defined
+    - nix_resultado_pacotes is changed
+  changed_when: false
+  failed_when: false   # cache do KDE é cosmético; não derruba o playbook

@@ -1,0 +1,13 @@
+---
+# Na maioria dos desktops o PipeWire sobe sozinho após relogin.
+# NÃO ativar pipewire-launcher e serviço de usuário OpenRC ao mesmo tempo.
+- name: Instalar PipeWire + WirePlumber
+  community.general.apk:
+    name: "{{ audio_pacotes }}"
+    state: present
+
+- name: Garantir usuário no grupo audio
+  ansible.builtin.user:
+    name: "{{ usuario_desktop }}"
+    groups: audio
+    append: true

@@ -1,0 +1,4 @@
+---
+nix_pacotes: [nix, nix-openrc]
+nix_grupos_candidatos: [nix, nix-users]   # no Alpine testado o grupo é "nix"
+nix_conf_extra: ""

@@ -1,0 +1,4 @@
+---
+nix_opengl_diretorio_raizes: "{{ usuario_desktop_home }}/.cache/nix-roots"
+nix_opengl_atributo_64: mesa
+nix_opengl_atributo_32: pkgsi686Linux.mesa

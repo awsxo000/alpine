@@ -1,0 +1,10 @@
+---
+galaxy_info:
+  role_name: audio
+  author: projeto
+  description: Role audio do projeto alpine-desktop
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - { name: Alpine, versions: [all] }
+dependencies: []

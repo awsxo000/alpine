@@ -1,0 +1,54 @@
+---
+- name: Diretório de GC roots do Mesa
+  ansible.builtin.file:
+    path: "{{ nix_opengl_diretorio_raizes }}"
+    state: directory
+    owner: "{{ usuario_desktop }}"
+    group: "{{ usuario_desktop }}"
+    mode: "0755"
+
+# Links de saída mantêm o Mesa enraizado: NÃO apagar (nix-collect-garbage).
+- name: Baixar Mesa 64 bits do canal
+  ansible.builtin.command: >-
+    nix-build '<nixpkgs>' -A {{ nix_opengl_atributo_64 }}
+    --out-link {{ nix_opengl_diretorio_raizes }}/mesa64
+  args:
+    creates: "{{ nix_opengl_diretorio_raizes }}/mesa64"
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+
+- name: Baixar Mesa 32 bits do canal
+  ansible.builtin.command: >-
+    nix-build '<nixpkgs>' -A {{ nix_opengl_atributo_32 }}
+    --out-link {{ nix_opengl_diretorio_raizes }}/mesa32
+  args:
+    creates: "{{ nix_opengl_diretorio_raizes }}/mesa32"
+  become: true
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+
+- name: Diretório local.d
+  ansible.builtin.file:
+    path: /etc/local.d
+    state: directory
+    mode: "0755"
+
+- name: Script de boot dos links OpenGL
+  ansible.builtin.template:
+    src: opengl-drivers.start.j2
+    dest: /etc/local.d/opengl-drivers.start
+    mode: "0755"
+
+- name: Habilitar serviço local do OpenRC
+  ansible.builtin.service:
+    name: local
+    runlevel: default
+    enabled: true
+
+- name: Criar links agora (sem esperar reboot)
+  ansible.builtin.command: /etc/local.d/opengl-drivers.start
+  args:
+    creates: /run/opengl-driver

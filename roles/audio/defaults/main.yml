@@ -1,0 +1,2 @@
+---
+audio_pacotes: [pipewire, wireplumber, pipewire-pulse, pipewire-alsa, alsa-utils, pavucontrol]

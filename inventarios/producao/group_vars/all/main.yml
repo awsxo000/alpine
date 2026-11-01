@@ -1,0 +1,40 @@
+---
+# Premissa: Alpine JÁ instalado (setup-alpine + setup-desktop).
+# O Ansible só adiciona a camada de pacotes extras (Nix) e ajustes.
+
+# Usuário que já existe no sistema e usará o Nix.
+# NÃO defina aqui: scripts/preparar-ansible.sh detecta o usuário da máquina e grava
+# `usuario_desktop` em inventarios/producao/host_vars/localhost.yml.
+usuario_desktop_home: "/home/{{ usuario_desktop }}"
+
+# ===== Nix =====
+nix_canal_nome: nixpkgs
+# Canal ESTÁVEL. Ao sair a próxima release (YY.05 / YY.11), basta trocar a versão aqui.
+nix_canal_versao: "26.05"
+nix_canal_url: "https://nixos.org/channels/nixos-{{ nix_canal_versao }}"
+nix_permitir_nao_livres: true       # necessário para pacotes como Steam
+nix_habilitar_flakes: false         # flakes são experimentais; mantido desligado por estabilidade
+
+# ===== Steam =====
+steam_habilitado: true
+steam_pacote: steam
+steam_atualizar_menu_kde: true
+
+# Pacotes instalados no perfil do usuário (nix-env -iA nixpkgs.<attr>)
+nix_pacotes_usuario: []            # ex.: [btop, steam]  (steam exige nix_permitir_nao_livres: true)
+nix_atualizar_menu_kde: true       # roda kbuildsycoca6 após instalar pacotes
+
+# ===== Mesa do Nix para apps FHS (Steam) =====
+nix_opengl_habilitado: true         # cria /run/opengl-driver{,-32} no boot
+nix_opengl_driver_teste: radeonsi_dri.so   # AMD. Intel: iris_dri.so | Nouveau: nouveau_dri.so
+
+# ===== Rede =====
+rede_habilitada: false                 # etapa posterior
+rede_desabilitar_servicos_legados: false   # true = desliga networking/wpa_supplicant do OpenRC
+
+# ===== Áudio =====
+audio_habilitado: false                # etapa posterior
+
+# ===== Fontes extras (apk) =====
+fontes_habilitadas: false              # etapa posterior
+fontes_pacotes_extras: []

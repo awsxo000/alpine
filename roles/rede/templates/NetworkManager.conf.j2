@@ -1,0 +1,10 @@
+# Gerenciado pelo Ansible - role network
+[main]
+dhcp={{ rede_dhcp }}
+plugins=ifupdown,keyfile
+
+[ifupdown]
+managed=true
+
+[device]
+wifi.backend={{ rede_wifi_backend }}

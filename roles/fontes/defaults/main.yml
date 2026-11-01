@@ -1,0 +1,10 @@
+---
+fontes_pacotes:
+  - fontconfig
+  - font-dejavu          # fallback universal
+  - font-liberation      # compatível com Arial/Times/Courier
+  - font-noto            # cobertura ampla (latino, etc.)
+  - font-noto-emoji      # emojis
+  - font-noto-cjk        # chinês/japonês/coreano
+  - font-inter           # UI moderna
+  - font-jetbrains-mono  # terminal/código

@@ -1,0 +1,16 @@
+---
+- name: Garantir repositório community habilitado
+  ansible.builtin.replace:
+    path: /etc/apk/repositories
+    regexp: '^#\s*(https?://\S+/(v[0-9.]+|latest-stable|edge)/community)\s*$'
+    replace: '\1'
+  notify: Atualizar índice apk
+
+- name: Aplicar handlers pendentes
+  ansible.builtin.meta: flush_handlers
+
+- name: Instalar pacotes base
+  community.general.apk:
+    name: "{{ base_pacotes }}"
+    state: present
+    update_cache: true

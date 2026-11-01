@@ -1,0 +1,24 @@
+#!/bin/sh
+# Gerenciado pelo Ansible - role nix_opengl
+# Recria /run/opengl-driver{,-32} a cada boot (/run é tmpfs).
+set -eu
+
+mesa64="$(readlink -f {{ nix_opengl_diretorio_raizes }}/mesa64)"
+mesa32="$(readlink -f {{ nix_opengl_diretorio_raizes }}/mesa32)"
+
+for mesa in "$mesa64" "$mesa32"; do
+    if [ ! -e "$mesa/lib/dri/{{ nix_opengl_driver_teste }}" ]; then
+        echo "Driver Mesa não encontrado em: $mesa" >&2
+        exit 1
+    fi
+done
+
+for link in /run/opengl-driver /run/opengl-driver-32; do
+    if [ -e "$link" ] && [ ! -L "$link" ]; then
+        echo "Não vou substituir o caminho existente que não é link: $link" >&2
+        exit 1
+    fi
+done
+
+ln -sfn "$mesa64" /run/opengl-driver
+ln -sfn "$mesa32" /run/opengl-driver-32
