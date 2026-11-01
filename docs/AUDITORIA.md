@@ -12,7 +12,8 @@ backend do NetworkManager, mas não deve ser iniciado como serviço standalone.
 
 ## Limpeza realizada
 
-- removidas as capturas de tela de teste da raiz do repositório;
+- movidas as capturas de tela de teste para `docs/evidencias/rede/`; elas ficam
+  na branch principal, mas são excluídas dos ZIPs de Release;
 - alinhado o `XDG_DATA_DIRS` da role `steam` com a integração Nix/Flatpak;
 - atualizado o README para refletir a rede na etapa atual;
 - mantidos os scripts independentes e as roles sem funções duplicadas;

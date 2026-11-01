@@ -83,6 +83,11 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - REMOVIDO: capturas de tela de teste da árvore de código.
 - ADICIONADO: `docs/AUDITORIA.md` com o estado de estabilização antes das próximas roles.
 
+## [2026-11-01] (25)
+- ALTERADO: evidências de teste foram organizadas em `docs/evidencias/`.
+- ALTERADO: evidências permanecem na branch principal, mas são excluídas dos pacotes ZIP de Release.
+- ADICIONADO: `scripts/empacotar-release.sh`, que cria o ZIP e valida a exclusão das evidências.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

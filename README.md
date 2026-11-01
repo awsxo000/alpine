@@ -89,3 +89,12 @@ docs/          Architecture, decisions and project history
 Releases and standalone ZIP packages are published on GitHub:
 
 <https://github.com/awsxo000/alpine/releases>
+
+Test evidence is kept under `docs/evidencias/` in the repository and is not
+included in Release ZIP packages.
+
+To create a Release package locally:
+
+```sh
+sh scripts/empacotar-release.sh /tmp/alpine-desktop-release.zip
+```
