@@ -1,0 +1,223 @@
+$ lsusb -nn
+Bus 005 Device 001: ID 1d6b:0002 Linux 6.18.60-0-lts xhci-hcd xHCI Host Controller
+Bus 003 Device 001: ID 1d6b:0002 Linux 6.18.60-0-lts xhci-hcd xHCI Host Controller
+Bus 003 Device 005: ID 048d:04d2 General UDisk
+Bus 001 Device 001: ID 1d6b:0002 Linux 6.18.60-0-lts xhci-hcd xHCI Host Controller
+Bus 005 Device 002: ID 04f2:b79c Generic ACER HD User Facing
+Bus 003 Device 003: ID 058f:6387 Generic Mass Storage
+Bus 003 Device 006: ID 0bda:a729 Realtek Bluetooth 5.3 Radio
+Bus 004 Device 001: ID 1d6b:0003 Linux 6.18.60-0-lts xhci-hcd xHCI Host Controller
+Bus 002 Device 001: ID 1d6b:0003 Linux 6.18.60-0-lts xhci-hcd xHCI Host Controller
+Bus 003 Device 004: ID 0bda:c811 Realtek 802.11ac NIC
+Bus 003 Device 002: ID 214b:7250 USB2.0 HUB
+Bus 001 Device 002: ID 13d3:3594 MediaTek Inc. Wireless_Device
+~ $ rfkill list
+0: acer-wireless: Wireless LAN
+       Soft blocked: no
+       Hard blocked: no
+1: acer-bluetooth: Bluetooth
+       Soft blocked: no
+       Hard blocked: no
+2: hci0: Bluetooth
+       Soft blocked: no
+       Hard blocked: no
+5: phy2: Wireless LAN
+       Soft blocked: no
+       Hard blocked: no
+6: hci1: Bluetooth
+       Soft blocked: no
+       Hard blocked: no
+~ $ lsmod | grep -E 'btusb|bluetooth'
+btusb                  81920  0
+btrtl                  28672  1 btusb
+btmtk                  32768  1 btusb
+btbcm                  24576  1 btusb
+btintel                73728  1 btusb
+bluetooth            1064960  53 btrtl,btmtk,btintel,btbcm,bnep,btusb,rfcomm
+ecdh_generic           16384  2 bluetooth
+rfkill                 32768  9 acer_wmi,bluetooth,cfg80211
+crc16                  12288  3 bluetooth,amdgpu,ext4
+usbcore               421888  9 xhci_hcd,btmtk,usb_storage,rtw88_8821cu,uvcvideo,rtw88_usb,btusb,xhci_pci,uas
+~ $ doas dmesg | grep -Ei 'bluetooth|btusb|firmware|hci'
+[    0.062212] Spectre V2 : Enabling Speculation Barrier for firmware calls
+[    0.241411] ACPI: [Firmware Bug]: BIOS _OSI(Linux) query ignored
+[    0.822527] wmi_bus wmi_bus-PNP0C14:00: [Firmware Bug]: WMBF method block execution control method not found
+[    0.848150] xhci_hcd 0000:03:00.3: xHCI Host Controller
+[    0.848160] xhci_hcd 0000:03:00.3: new USB bus registered, assigned bus number 1
+[    0.848533] xhci_hcd 0000:03:00.3: hcc params 0x0120ffc5 hci version 0x120 quirks 0x0000000200000010
+[    0.848940] xhci_hcd 0000:03:00.3: xHCI Host Controller
+[    0.848945] xhci_hcd 0000:03:00.3: new USB bus registered, assigned bus number 2
+[    0.848948] xhci_hcd 0000:03:00.3: Host supports USB 3.1 Enhanced SuperSpeed
+[    0.849004] usb usb1: Product: xHCI Host Controller
+[    0.849006] usb usb1: Manufacturer: Linux 6.18.60-0-lts xhci-hcd
+[    0.849439] usb usb2: Product: xHCI Host Controller
+[    0.849441] usb usb2: Manufacturer: Linux 6.18.60-0-lts xhci-hcd
+[    0.849818] xhci_hcd 0000:03:00.4: xHCI Host Controller
+[    0.849824] xhci_hcd 0000:03:00.4: new USB bus registered, assigned bus number 3
+[    0.850192] xhci_hcd 0000:03:00.4: hcc params 0x0120ffc5 hci version 0x120 quirks 0x0000000200000010
+[    0.850557] xhci_hcd 0000:03:00.4: xHCI Host Controller
+[    0.850561] xhci_hcd 0000:03:00.4: new USB bus registered, assigned bus number 4
+[    0.850564] xhci_hcd 0000:03:00.4: Host supports USB 3.1 Enhanced SuperSpeed
+[    0.850606] usb usb3: Product: xHCI Host Controller
+[    0.850608] usb usb3: Manufacturer: Linux 6.18.60-0-lts xhci-hcd
+[    0.851036] usb usb4: Product: xHCI Host Controller
+[    0.851038] usb usb4: Manufacturer: Linux 6.18.60-0-lts xhci-hcd
+[    0.851459] xhci_hcd 0000:04:00.0: xHCI Host Controller
+[    0.851464] xhci_hcd 0000:04:00.0: new USB bus registered, assigned bus number 5
+[    0.852847] xhci_hcd 0000:04:00.0: USB3 root hub has no ports
+[    0.852865] xhci_hcd 0000:04:00.0: hcc params 0x0110ffc5 hci version 0x120 quirks 0x0000000200000010
+[    0.853181] usb usb5: Product: xHCI Host Controller
+[    0.853183] usb usb5: Manufacturer: Linux 6.18.60-0-lts xhci-hcd
+[    1.088561] usb 5-1: new high-speed USB device number 2 using xhci_hcd
+[    1.088605] usb 3-1: new high-speed USB device number 2 using xhci_hcd
+[    1.088620] usb 1-2: new high-speed USB device number 2 using xhci_hcd
+[    1.542524] usb 3-1.2: new high-speed USB device number 3 using xhci_hcd
+[    1.625090] Bluetooth: Core ver 2.22
+[    1.634313] NET: Registered PF_BLUETOOTH protocol family
+[    1.634321] Bluetooth: HCI device and connection manager initialized
+[    1.634329] Bluetooth: HCI socket layer initialized
+[    1.634333] Bluetooth: L2CAP socket layer initialized
+[    1.634341] Bluetooth: SCO socket layer initialized
+[    1.740530] usb 3-1.3: new high-speed USB device number 4 using xhci_hcd
+[    1.744976] usbcore: registered new interface driver btusb
+[    1.937529] usb 3-1.4: new high-speed USB device number 5 using xhci_hcd
+[    3.800538] Bluetooth: hci0: Opcode 0x0c03 failed: -110
+[    4.397913] amdgpu 0000:03:00.0: amdgpu: [drm] Loading DMUB firmware via PSP: version=0x06001300
+[    4.398655] amdgpu 0000:03:00.0: amdgpu: [VCN instance 0] Found VCN firmware Version ENC: 1.33 DEC: 4 VEP: 0 Revision: 15
+[    7.670923] rtw88_8821cu 3-1.3:1.0: Firmware version 24.11.0, H2C version 12
+[   10.507011] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+[   10.507018] Bluetooth: BNEP filters: protocol multicast
+[   10.507024] Bluetooth: BNEP socket layer initialized
+[   20.307171] usb 3-1.3: reset high-speed USB device number 4 using xhci_hcd
+[   25.267719] rtw88_8821cu 3-1.3:1.0: Firmware version 24.11.0, H2C version 12
+[   26.436449] usb 3-1.3: reset high-speed USB device number 4 using xhci_hcd
+[   28.187095] rtw88_8821cu 3-1.3:1.0: Firmware version 24.11.0, H2C version 12
+[  150.430408] usb 3-2: new full-speed USB device number 6 using xhci_hcd
+[  150.574652] usb 3-2: Product: Bluetooth 5.3 Radio
+[  150.591676] Bluetooth: hci1: RTL: examining hci_ver=0a hci_rev=000b lmp_ver=0a lmp_subver=8761
+[  150.594679] Bluetooth: hci1: RTL: rom_version status=0 version=1
+[  150.597667] Bluetooth: hci1: RTL: btrtl_initialize: key id 0
+[  150.597676] Bluetooth: hci1: RTL: loading rtl_bt/rtl8761bu_fw.bin
+[  150.599961] Bluetooth: hci1: RTL: loading rtl_bt/rtl8761bu_config.bin
+[  150.600076] Bluetooth: hci1: RTL: cfg_sz 6, total sz 30210
+[  150.987690] Bluetooth: hci1: RTL: fw version 0xdfc6d922
+[  151.123893] Bluetooth: MGMT ver 1.23
+[  151.148451] Bluetooth: RFCOMM TTY layer initialized
+[  151.148468] Bluetooth: RFCOMM socket layer initialized
+[  151.148477] Bluetooth: RFCOMM ver 1.11
+[  194.424025] Bluetooth: hci1: SCO packet for unknown connection handle 2
+~ $ bluetoothctl list
+Controller 8A:88:4B:83:36:AA BlueZ 5.86 [default]
+~ $ apk info -e linux-firmware
+~ $ apk info -e linux-firmware
+~ $ doas apk add linux-firmware
+(  1/102) Installing linux-firmware-s5p-mfc (20260519-r0)
+(  2/102) Installing linux-firmware-yamaha (20260519-r0)
+(  3/102) Installing linux-firmware-yam (20260519-r0)
+(  4/102) Installing linux-firmware-xe (20260519-r0)
+(  5/102) Installing linux-firmware-wfx (20260519-r0)
+(  6/102) Installing linux-firmware-vxge (20260519-r0)
+(  7/102) Installing linux-firmware-vicam (20260519-r0)
+(  8/102) Installing linux-firmware-ueagle-atm (20260519-r0)
+(  9/102) Installing linux-firmware-ttusb-budget (20260519-r0)
+( 10/102) Installing linux-firmware-tigon (20260519-r0)
+( 11/102) Installing linux-firmware-ti-keystone (20260519-r0)
+( 12/102) Installing linux-firmware-ti-connectivity (20260519-r0)
+( 13/102) Installing linux-firmware-lontium (20260519-r0)
+( 14/102) Installing linux-firmware-ti (20260519-r0)
+( 15/102) Installing linux-firmware-tehuti (20260519-r0)
+( 16/102) Installing linux-firmware-synaptics (20260519-r0)
+( 17/102) Installing linux-firmware-sxg (20260519-r0)
+( 18/102) Installing linux-firmware-sun (20260519-r0)
+( 19/102) Installing linux-firmware-slicoss (20260519-r0)
+( 20/102) Installing linux-firmware-sdca (20260519-r0)
+( 21/102) Installing linux-firmware-sb16 (20260519-r0)
+( 22/102) Installing linux-firmware-rtw89 (20260519-r0)
+( 23/102) Installing linux-firmware-rtlwifi (20260519-r0)
+( 24/102) Installing linux-firmware-rtl_nic (20260519-r0)
+( 25/102) Installing linux-firmware-rsi (20260519-r0)
+( 26/102) Installing linux-firmware-rockchip (20260519-r0)
+( 27/102) Installing linux-firmware-realtek (20260519-r0)
+( 28/102) Installing linux-firmware-radeon (20260519-r0)
+( 29/102) Installing linux-firmware-r128 (20260519-r0)
+( 30/102) Installing linux-firmware-qlogic (20260519-r0)
+( 31/102) Installing linux-firmware-qed (20260519-r0)
+( 32/102) Installing linux-firmware-ath10k (20260519-r0)
+( 33/102) Installing linux-firmware-ath11k (20260519-r0)
+( 34/102) Installing linux-firmware-qcom (20260519-r0)
+( 35/102) Installing linux-firmware-qca (20260519-r0)
+( 36/102) Installing linux-firmware-powervr (20260519-r0)
+( 37/102) Installing linux-firmware-ositech (20260519-r0)
+( 38/102) Installing linux-firmware-nxp (20260519-r0)
+( 39/102) Installing linux-firmware-nvidia (20260519-r0)
+( 40/102) Installing linux-firmware-netronome (20260519-r0)
+( 41/102) Installing linux-firmware-myricom (20260519-r0)
+( 42/102) Installing linux-firmware-mwlwifi (20260519-r0)
+( 43/102) Installing linux-firmware-mwl8k (20260519-r0)
+( 44/102) Installing linux-firmware-libertas (20260519-r0)
+( 45/102) Installing linux-firmware-mrvl (20260519-r0)
+( 46/102) Installing linux-firmware-moxa (20260519-r0)
+( 47/102) Installing linux-firmware-microchip (20260519-r0)
+( 48/102) Installing linux-firmware-meson (20260519-r0)
+( 49/102) Installing linux-firmware-mellanox (20260519-r0)
+( 50/102) Installing linux-firmware-matrox (20260519-r0)
+( 51/102) Installing linux-firmware-liquidio (20260519-r0)
+( 52/102) Installing linux-firmware-korg (20260519-r0)
+( 53/102) Installing linux-firmware-keyspan_pda (20260519-r0)
+( 54/102) Installing linux-firmware-keyspan (20260519-r0)
+( 55/102) Installing linux-firmware-kaweth (20260519-r0)
+( 56/102) Installing linux-firmware-ixp4xx (20260519-r0)
+( 57/102) Installing linux-firmware-isci (20260519-r0)
+( 58/102) Installing linux-firmware-inside-secure (20260519-r0)
+( 59/102) Installing linux-firmware-imx (20260519-r0)
+( 60/102) Installing linux-firmware-i915 (20260519-r0)
+( 61/102) Installing linux-firmware-go7007 (20260519-r0)
+( 62/102) Installing linux-firmware-ess (20260519-r0)
+( 63/102) Installing linux-firmware-ene-ub6250 (20260519-r0)
+( 64/102) Installing linux-firmware-emi62 (20260519-r0)
+( 65/102) Installing linux-firmware-emi26 (20260519-r0)
+( 66/102) Installing linux-firmware-edgeport (20260519-r0)
+( 67/102) Installing linux-firmware-e100 (20260519-r0)
+( 68/102) Installing linux-firmware-dsp56k (20260519-r0)
+( 69/102) Installing linux-firmware-dpaa2 (20260519-r0)
+( 70/102) Installing linux-firmware-dabusb (20260519-r0)
+( 71/102) Installing linux-firmware-cypress (20260519-r0)
+( 72/102) Installing linux-firmware-cxgb4 (20260519-r0)
+( 73/102) Installing linux-firmware-cxgb3 (20260519-r0)
+( 74/102) Installing linux-firmware-cpia2 (20260519-r0)
+( 75/102) Installing linux-firmware-cnm (20260519-r0)
+( 76/102) Installing linux-firmware-cis (20260519-r0)
+( 77/102) Installing linux-firmware-cirrus (20260519-r0)
+( 78/102) Installing linux-firmware-cavium (20260519-r0)
+( 79/102) Installing linux-firmware-cadence (20260519-r0)
+( 80/102) Installing linux-firmware-brcm (20260519-r0)
+( 81/102) Installing linux-firmware-bnx2x (20260519-r0)
+( 82/102) Installing linux-firmware-bnx2 (20260519-r0)
+( 83/102) Installing linux-firmware-av7110 (20260519-r0)
+( 84/102) Installing linux-firmware-atusb (20260519-r0)
+( 85/102) Installing linux-firmware-atmel (20260519-r0)
+( 86/102) Installing linux-firmware-ath9k_htc (20260519-r0)
+( 87/102) Installing linux-firmware-ath6k (20260519-r0)
+( 88/102) Installing linux-firmware-ath12k (20260519-r0)
+( 89/102) Installing linux-firmware-arm (20260519-r0)
+( 90/102) Installing linux-firmware-ar3k (20260519-r0)
+( 91/102) Installing linux-firmware-amphion (20260519-r0)
+( 92/102) Installing linux-firmware-amlogic (20260519-r0)
+( 93/102) Installing linux-firmware-amdtee (20260519-r0)
+( 94/102) Installing linux-firmware-amdnpu (20260519-r0)
+( 95/102) Installing linux-firmware-amd-ucode (20260519-r0)
+( 96/102) Installing linux-firmware-airoha (20260519-r0)
+( 97/102) Installing linux-firmware-aeonsemi (20260519-r0)
+( 98/102) Installing linux-firmware-advansys (20260519-r0)
+( 99/102) Installing linux-firmware-adaptec (20260519-r0)
+(100/102) Installing linux-firmware-acenic (20260519-r0)
+(101/102) Installing linux-firmware-3com (20260519-r0)
+(102/102) Installing linux-firmware (20260519-r0)
+OK: 4152.1 MiB in 1127 packages
+~ $ doas rc-service bluetooth restart
+* Stopping Bluetooth ...                                                                                                                                        [ ok ]
+* Starting Bluetooth ...                                                                                                                                        [ ok ]
+~ $ bluetoothctl list
+~ $  
+~ $
+
