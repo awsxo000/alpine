@@ -1,0 +1,58 @@
+---
+- name: Instalar elogind e polkit integrado
+  community.general.apk:
+    name: "{{ energia_pacotes }}"
+    state: present
+
+- name: Habilitar e iniciar elogind
+  ansible.builtin.service:
+    name: elogind
+    enabled: true
+    state: started
+
+- name: Habilitar e iniciar polkit
+  ansible.builtin.service:
+    name: polkit
+    enabled: true
+    state: started
+
+- name: Garantir diretório de regras polkit
+  ansible.builtin.file:
+    path: /etc/polkit-1/rules.d
+    state: directory
+    mode: "0755"
+
+- name: Autorizar ações de energia no SDDM
+  ansible.builtin.template:
+    src: sddm-power.rules.j2
+    dest: /etc/polkit-1/rules.d/49-alpine-sddm-power.rules
+    owner: root
+    group: root
+    mode: "0644"
+  when: energia_configurar_sddm | bool
+
+- name: Verificar swap disponível para hibernação
+  ansible.builtin.shell: "awk 'NR > 1 {print $1}' /proc/swaps"
+  args:
+    executable: /bin/sh
+  register: energia_swap
+  changed_when: false
+  failed_when: false
+  when: energia_verificar_swap | bool
+
+- name: Diagnosticar capacidade de suspensão e hibernação
+  ansible.builtin.command: "loginctl {{ item }}"
+  loop:
+    - can-suspend
+    - can-hibernate
+    - can-hybrid-sleep
+  register: energia_capacidades
+  changed_when: false
+  failed_when: false
+
+- name: Exibir diagnóstico de energia
+  ansible.builtin.debug:
+    msg:
+      - "Swap: {{ energia_swap.stdout | default('not checked') | trim | default('none', true) }}"
+      - "{{ energia_capacidades.results | map(attribute='stdout') | list }}"
+      - "A regra SDDM limita energia ao usuário {{ energia_usuario_login }}."

@@ -1,0 +1,7 @@
+---
+energia_pacotes:
+  - elogind
+  - polkit-elogind
+energia_usuario_login: sddm
+energia_configurar_sddm: true
+energia_verificar_swap: true

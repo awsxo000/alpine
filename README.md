@@ -18,7 +18,7 @@ This bootstraps `make`, Python, Ansible, the required collection and the first
 installation stage:
 
 ```text
-base → nix → steam → nix_opengl → rede → bluetooth → audio
+base → nix → steam → nix_opengl → rede → bluetooth → audio → energia
 ```
 
 To reapply the configuration:
@@ -35,8 +35,8 @@ make dependencias
 
 ## Optional roles
 
-Fonts remain disabled. NetworkManager, Bluetooth and PipeWire are the current
-validation stages:
+Fonts remain disabled. NetworkManager, Bluetooth, PipeWire and SDDM power
+actions are the current validation stages:
 
 ```yaml
 rede_habilitada: true
@@ -45,12 +45,18 @@ bluetooth_habilitado: true
 
 audio_habilitado: true
 
+energia_habilitada: true
+
 fontes_habilitadas: false
 ```
 
 After applying the network, Bluetooth and audio stages, log out and back in so
 the `plugdev`, `lp` and `audio` groups and the PipeWire user services take
 effect in the desktop session.
+
+Hibernate requires swap and a matching kernel `resume=` parameter. The energy
+role checks these prerequisites but does not modify the bootloader
+automatically.
 
 ## Refresh Nix Apps
 

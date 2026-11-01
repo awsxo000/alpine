@@ -18,13 +18,14 @@ sobre o musl do Alpine.
 5. **rede** – NetworkManager
 6. **bluetooth** – BlueZ + Bluedevil + módulos de hardware
 7. **audio** – PipeWire + WirePlumber
-8. **fontes** – conjunto de fontes
+8. **energia** – elogind + polkit + ações de energia no SDDM
+9. **fontes** – conjunto de fontes
 
 ## Etapas de ativação
 
 A primeira execução habilita `base`, `nix`, `steam`, `nix_opengl`, `rede`,
-`bluetooth` e `audio`. A role `fontes` permanece desabilitada até a validação
-das etapas anteriores.
+`bluetooth`, `audio` e `energia`. A role `fontes` permanece desabilitada até a
+validação das etapas anteriores.
 
 ## Convenções
 - Uma role = uma responsabilidade; variáveis ajustáveis em `group_vars`, padrões em `defaults/`.

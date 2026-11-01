@@ -98,6 +98,11 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - ALTERADO: `pavucontrol-qt` substitui o mixer GTK na integração principal com Plasma.
 - ALTERADO: áudio Bluetooth habilitado com `pipewire-spa-bluez`; a role não usa o legado `pipewire-launcher`.
 
+## [2026-11-01] (28)
+- ADICIONADO: role `energia` com `elogind`, `polkit-elogind` e regra restrita para ações de energia no SDDM.
+- ADICIONADO: diagnóstico de swap e capacidades `loginctl` para suspensão, hibernação e hybrid sleep.
+- ALTERADO: hibernação não configura automaticamente o bootloader; exige swap e parâmetro `resume=` compatível.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

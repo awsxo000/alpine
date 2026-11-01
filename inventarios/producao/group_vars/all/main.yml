@@ -40,6 +40,10 @@ bluetooth_instalar_pipewire_spa_bluez: true  # suporte de áudio Bluetooth
 # ===== Áudio =====
 audio_habilitado: true                 # etapa atual: PipeWire + WirePlumber
 
+# ===== Energia / SDDM =====
+energia_habilitada: true                # elogind + polkit + ações no login
+energia_configurar_sddm: true
+
 # ===== Fontes extras (apk) =====
 fontes_habilitadas: false              # etapa posterior
 fontes_pacotes_extras: []

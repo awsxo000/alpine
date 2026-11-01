@@ -9,6 +9,7 @@
 | rede | networkmanager (+wifi, cli), plasma-nm, eudev, wpa_supplicant | networkmanager, udev | `rede_dhcp`, `rede_wifi_backend`, `rede_grupo_usuario`, `rede_desabilitar_servicos_legados` |
 | bluetooth | bluez, bluedevil, rfkill, kmod | bluetooth | `bluetooth_habilitado`, `bluetooth_auto_enable`, `bluetooth_userspace_hid`, `bluetooth_instalar_pipewire_spa_bluez` |
 | audio | pipewire, wireplumber, pipewire-pulse, pipewire-alsa, pipewire-jack, pavucontrol-qt | serviços OpenRC do usuário | `audio_pacotes`, `audio_runlevels_usuario` |
+| energia | elogind, polkit-elogind | elogind, polkit | `energia_habilitada`, `energia_configurar_sddm`, `energia_usuario_login` |
 | fontes | fontconfig dejavu liberation noto noto-emoji noto-cjk inter jetbrains-mono | — | `fontes_pacotes_extras` |
 
 ## Arquivos gerenciados no alvo

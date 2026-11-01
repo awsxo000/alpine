@@ -1,0 +1,19 @@
+// Gerenciado pelo Ansible - role energia
+// Autoriza somente o usuário do SDDM a controlar energia na tela de login.
+polkit.addRule(function(action, subject) {
+    var powerActions = [
+        "org.freedesktop.login1.suspend",
+        "org.freedesktop.login1.suspend-multiple-sessions",
+        "org.freedesktop.login1.hibernate",
+        "org.freedesktop.login1.hibernate-multiple-sessions",
+        "org.freedesktop.login1.hybrid-sleep",
+        "org.freedesktop.login1.suspend-then-hibernate",
+        "org.freedesktop.login1.power-off",
+        "org.freedesktop.login1.reboot"
+    ];
+
+    if (subject.user == "{{ energia_usuario_login }}" &&
+        subject.local && powerActions.indexOf(action.id) >= 0) {
+        return polkit.Result.YES;
+    }
+});
