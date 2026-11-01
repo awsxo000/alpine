@@ -33,6 +33,17 @@ KDE. Ele fica disponível para execução manual com dois cliques e atualiza o
 cache do menu, sem ser executado automaticamente pelo Ansible. Se necessário,
 desative sua instalação com `nix_instalar_atualizador_menu: false`.
 
+Se o projeto já estiver instalado e você quiser somente esse aplicativo, sem
+executar Ansible, `make` ou qualquer role, use o instalador independente:
+
+```sh
+sh scripts/instalar-atualizador-nix.sh
+```
+
+Esse script instala apenas os arquivos em `~/.local/bin` e
+`~/.local/share/applications`. Ele não precisa de `doas` nem de privilégios de
+root.
+
 O projeto foi pensado para uso pessoal em uma única máquina. O inventário aponta
 para `localhost` com conexão local; não é necessário informar IP, usuário SSH
 ou configurar uma máquina remota. A execução completa é feita com:
