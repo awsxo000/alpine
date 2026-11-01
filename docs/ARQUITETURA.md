@@ -21,10 +21,9 @@ sobre o musl do Alpine.
 
 ## Etapas de ativação
 
-A primeira execução habilita somente `base`, `nix`, `steam` e `nix_opengl`.
-As roles `rede`, `audio` e `fontes` permanecem no projeto, mas ficam
-desabilitadas por padrão. Elas serão ativadas individualmente depois que o
-marco Nix + Steam for validado.
+A primeira execução habilita `base`, `nix`, `steam`, `nix_opengl` e a etapa
+atual de `rede` com NetworkManager. As roles `audio` e `fontes` permanecem
+desabilitadas até a validação da rede.
 
 ## Convenções
 - Uma role = uma responsabilidade; variáveis ajustáveis em `group_vars`, padrões em `defaults/`.

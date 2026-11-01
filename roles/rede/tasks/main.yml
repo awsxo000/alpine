@@ -4,6 +4,19 @@
     name: "{{ rede_pacotes }}"
     state: present
 
+- name: Habilitar eudev
+  ansible.builtin.service:
+    name: udev
+    enabled: true
+    state: started
+  failed_when: false
+
+- name: Adicionar usuário desktop ao grupo plugdev
+  ansible.builtin.user:
+    name: "{{ usuario_desktop }}"
+    groups: "{{ rede_grupo_usuario }}"
+    append: true
+
 - name: Configurar NetworkManager
   ansible.builtin.template:
     src: NetworkManager.conf.j2
@@ -11,12 +24,14 @@
     mode: "0644"
   notify: Reiniciar NetworkManager
 
-- name: Desabilitar serviços de rede legados (opcional)
+- name: Parar e desabilitar serviços de rede legados
   ansible.builtin.service:
     name: "{{ item }}"
     enabled: false
+    state: stopped
   loop: [networking, wpa_supplicant]
   when: rede_desabilitar_servicos_legados | bool
+  failed_when: false
 
 - name: Habilitar NetworkManager
   ansible.builtin.service:

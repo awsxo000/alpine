@@ -30,8 +30,8 @@ nix_opengl_habilitado: true         # cria /run/opengl-driver{,-32} no boot
 nix_opengl_driver_teste: radeonsi_dri.so   # AMD. Intel: iris_dri.so | Nouveau: nouveau_dri.so
 
 # ===== Rede =====
-rede_habilitada: false                 # etapa posterior
-rede_desabilitar_servicos_legados: false   # true = desliga networking/wpa_supplicant do OpenRC
+rede_habilitada: true                  # etapa atual: NetworkManager
+rede_desabilitar_servicos_legados: true # troca do OpenRC legado para NetworkManager
 
 # ===== Áudio =====
 audio_habilitado: false                # etapa posterior

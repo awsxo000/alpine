@@ -35,17 +35,19 @@ make dependencias
 
 ## Optional roles
 
-The following roles are implemented but disabled by default:
+Audio and font roles are implemented but disabled by default. NetworkManager is
+the current validation stage:
 
 ```yaml
-rede_habilitada: false
+rede_habilitada: true
 
 audio_habilitado: false
 
 fontes_habilitadas: false
 ```
 
-Enable each role individually after validating the previous stage.
+After applying the network stage, log in again so the `plugdev` group takes
+effect in the desktop session.
 
 ## Refresh Nix Apps
 

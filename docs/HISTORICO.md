@@ -65,6 +65,11 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 ## [2026-11-01] (20)
 - CORRIGIDO: `XDG_DATA_DIRS` agora preserva os exports Flatpak do usuário e do sistema ao integrar aplicativos Nix com o KDE.
 
+## [2026-11-01] (21)
+- ALTERADO: role `rede` passa a instalar NetworkManager, suporte Wi-Fi, `plasma-nm` e `eudev`.
+- ADICIONADO: usuário desktop no grupo `plugdev` e configuração do NetworkManager para Plasma.
+- ALTERADO: notebook de testes habilita a troca dos serviços legados para NetworkManager; áudio e fontes permanecem desabilitados.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,
