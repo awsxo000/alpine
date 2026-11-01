@@ -23,6 +23,7 @@ steam_atualizar_menu_kde: true
 # Pacotes instalados no perfil do usuário (nix-env -iA nixpkgs.<attr>)
 nix_pacotes_usuario: []            # ex.: [btop, steam]  (steam exige nix_permitir_nao_livres: true)
 nix_atualizar_menu_kde: true       # roda kbuildsycoca6 após instalar pacotes
+nix_instalar_atualizador_menu: true # instala o app manual para atualizar o menu
 
 # ===== Mesa do Nix para apps FHS (Steam) =====
 nix_opengl_habilitado: true         # cria /run/opengl-driver{,-32} no boot

@@ -48,6 +48,10 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - CORRIGIDO: `preparar-ansible.sh` devolve ao usuário o dono de `~/.ansible`, `.collections`, `.cache` e `host_vars` quando execuções anteriores como root os deixaram com dono root.
 - CORRIGIDO: aviso de deprecação `INJECT_FACTS_AS_VARS` (`ansible_facts['getent_group']`) e `HOME` nas tasks de canal do Nix.
 
+## [2026-11-01] (16)
+- ADICIONADO: aplicativo **Atualizar aplicativos Nix**, disponível no menu do KDE para execução manual com dois cliques.
+- ALTERADO: o atualizador não é executado pelo playbook; ele apenas é instalado pela role `nix` e atualiza o cache quando o usuário o abrir.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

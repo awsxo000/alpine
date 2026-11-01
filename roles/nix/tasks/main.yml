@@ -36,6 +36,42 @@
     dest: /etc/profile.d/nix-desktop.sh
     mode: "0644"
 
+- name: Diretório de aplicativos locais do usuário
+  ansible.builtin.file:
+    path: "{{ usuario_desktop_home }}/.local/bin"
+    state: directory
+    owner: "{{ usuario_desktop }}"
+    group: "{{ usuario_desktop }}"
+    mode: "0755"
+  when: nix_instalar_atualizador_menu | bool
+
+- name: Instalar atualizador manual dos aplicativos Nix
+  ansible.builtin.copy:
+    src: atualizar-aplicativos-nix.sh
+    dest: "{{ usuario_desktop_home }}/.local/bin/atualizar-aplicativos-nix.sh"
+    owner: "{{ usuario_desktop }}"
+    group: "{{ usuario_desktop }}"
+    mode: "0755"
+  when: nix_instalar_atualizador_menu | bool
+
+- name: Diretório de atalhos de aplicativos do usuário
+  ansible.builtin.file:
+    path: "{{ usuario_desktop_home }}/.local/share/applications"
+    state: directory
+    owner: "{{ usuario_desktop }}"
+    group: "{{ usuario_desktop }}"
+    mode: "0755"
+  when: nix_instalar_atualizador_menu | bool
+
+- name: Instalar launcher do atualizador no menu
+  ansible.builtin.template:
+    src: atualizar-aplicativos-nix.desktop.j2
+    dest: "{{ usuario_desktop_home }}/.local/share/applications/atualizar-aplicativos-nix.desktop"
+    owner: "{{ usuario_desktop }}"
+    group: "{{ usuario_desktop }}"
+    mode: "0644"
+  when: nix_instalar_atualizador_menu | bool
+
 - name: Diretório de config do nixpkgs do usuário
   ansible.builtin.file:
     path: "{{ usuario_desktop_home }}/.config/nixpkgs"

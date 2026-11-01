@@ -28,6 +28,11 @@ As integrações de rede, áudio e fontes estão implementadas, mas começam
 desligadas. Só serão ativadas em etapas posteriores, alterando explicitamente
 `rede_habilitada`, `audio_habilitado` ou `fontes_habilitadas` para `true`.
 
+O projeto também instala o aplicativo **Atualizar aplicativos Nix** no menu do
+KDE. Ele fica disponível para execução manual com dois cliques e atualiza o
+cache do menu, sem ser executado automaticamente pelo Ansible. Se necessário,
+desative sua instalação com `nix_instalar_atualizador_menu: false`.
+
 O projeto foi pensado para uso pessoal em uma única máquina. O inventário aponta
 para `localhost` com conexão local; não é necessário informar IP, usuário SSH
 ou configurar uma máquina remota. A execução completa é feita com:
