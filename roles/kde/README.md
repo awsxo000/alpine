@@ -7,16 +7,19 @@ integração de gerenciamento de aplicações baseada em systemd. Em sistemas se
 systemd, como o Alpine com OpenRC, essa página aparece mas mostra `Applications
 view is unsupported on your system`.
 
-A role oculta essa página no `systemmonitorrc` do usuário, preserva as páginas
-`Overview`, `History` e `Processes` e define `Overview` como página inicial
-válida. A alteração é idempotente e não remove o aplicativo System Monitor.
+A role oculta essa página no `systemmonitorrc` do usuário e também remove o
+mesmo painel da página `Overview`. Preserva os indicadores de CPU, GPU,
+memória, swap, discos e rede, além das páginas `Overview`, `History` e
+`Processes`. A alteração é idempotente e não remove o aplicativo System
+Monitor.
 
 ## Variáveis
 
 - `kde_habilitado`: controla a execução da role no playbook.
 - `kde_system_monitor_ocultar_aplicacoes`: habilita a ocultação da página; padrão `true`.
 - `kde_system_monitor_config`: caminho do `systemmonitorrc` do usuário.
+- `kde_system_monitor_overview`: caminho do override local de `overview.page`.
 
 Para reexibir a página, defina `kde_system_monitor_ocultar_aplicacoes: false` e
-remova manualmente `applications.page` de `hiddenPages` no arquivo de
-configuração, se necessário.
+remova manualmente `applications.page` de `hiddenPages` e o override local de
+`overview.page`, se necessário.

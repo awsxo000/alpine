@@ -2,3 +2,4 @@
 kde_habilitado: true
 kde_system_monitor_ocultar_aplicacoes: true
 kde_system_monitor_config: "{{ usuario_desktop_home }}/.config/systemmonitorrc"
+kde_system_monitor_overview: "{{ usuario_desktop_home }}/.local/share/plasma-systemmonitor/overview.page"

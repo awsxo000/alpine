@@ -147,6 +147,10 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - ADICIONADO: role `kde` para ocultar a página `Applications` do System Monitor em instalações Alpine com OpenRC.
 - CONFIGURADO: `Overview` como página inicial e última página válida do System Monitor, evitando reabrir a tela incompatível.
 
+## [2026-11-02] (40)
+- CORRIGIDO: removido também o painel `Applications` incorporado ao `Overview`.
+- IMPLEMENTADO: override local reversível de `overview.page`, sem alterar os arquivos instalados pelo KDE.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

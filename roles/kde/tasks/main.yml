@@ -42,3 +42,27 @@
     group: "{{ usuario_desktop }}"
     no_extra_spaces: true
   when: kde_system_monitor_ocultar_aplicacoes | bool
+
+- name: Localizar página Overview instalada pelo KDE
+  ansible.builtin.shell: >-
+    find /usr/share /usr/lib -type f -name overview.page 2>/dev/null
+    | grep -E '/(plasma-systemmonitor|ksysguard)/' | head -n 1
+  register: kde_system_monitor_overview_origem
+  changed_when: false
+  failed_when: false
+  when: kde_system_monitor_ocultar_aplicacoes | bool
+
+- name: Remover painel Applications do Overview
+  ansible.builtin.script:
+    cmd: >-
+      {{ role_path }}/files/remover-painel-applications.py
+      "{{ kde_system_monitor_overview_origem.stdout | trim }}"
+      "{{ kde_system_monitor_overview }}"
+  become_user: "{{ usuario_desktop }}"
+  environment:
+    HOME: "{{ usuario_desktop_home }}"
+  register: kde_system_monitor_overview_resultado
+  changed_when: "'updated' in kde_system_monitor_overview_resultado.stdout"
+  when:
+    - kde_system_monitor_ocultar_aplicacoes | bool
+    - kde_system_monitor_overview_origem.stdout | trim | length > 0
