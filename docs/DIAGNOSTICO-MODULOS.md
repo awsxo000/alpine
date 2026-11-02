@@ -6,7 +6,9 @@ O backend oferece um diagnóstico somente leitura para cada módulo do Alpine De
 make diagnostico-modulo MODULO=audio
 ```
 
-Os módulos aceitos são `base`, `nix`, `steam`, `nix_opengl`, `rede`, `bluetooth`, `audio`, `swap`, `energia`, `fontes` e `kde`.
+Os módulos aceitos são definidos em `modulos.json`, a fonte única compartilhada
+pelo diagnóstico e pelo frontend. Atualmente são `base`, `nix`, `steam`,
+`nix_opengl`, `rede`, `bluetooth`, `audio`, `swap`, `energia`, `fontes` e `kde`.
 
 A saída padrão é JSON com `schema_version: 1`. O comando não executa Ansible, não instala pacotes, não altera serviços e não modifica arquivos do sistema. Ele apenas consulta o estado atual.
 
@@ -35,7 +37,7 @@ Os estados de uma verificação são:
 - `warning`: situação não ideal que não impede necessariamente o módulo;
 - `unknown`: não foi possível concluir a verificação.
 
-O diagnóstico é intencionalmente independente de `make diagnostico`, que continua sendo a execução detalhada do playbook Ansible. Essa separação permite observar o sistema sem aplicar mudanças.
+O diagnóstico é intencionalmente independente de `make diagnostico`, que continua sendo a execução detalhada do playbook Ansible. Essa separação permite observar o sistema sem aplicar mudanças. Os checks opcionais podem gerar avisos ou erros informativos, mas somente checks `required: true` determinam o status geral do módulo.
 
 ## Integração
 

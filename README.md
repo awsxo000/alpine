@@ -93,9 +93,11 @@ sh /tmp/install-refresh-nix-apps.sh
 
 ## Privilege model
 
-The bootstrap configures a dedicated `doas` rule for the detected desktop user,
-allowing Ansible to run locally without an interactive password prompt. The
-configuration is idempotent and validates the generated rule before use.
+The bootstrap prepares `.alpine-state/vars.yml` and installs collections under
+`.alpine-state/`, outside the versioned backend. Ansible executions create a
+dedicated `doas nopass` rule only for the duration of the command and remove it
+with a trap on success, failure or interruption; no permanent nopass rule is
+installed by the bootstrap.
 
 ## Repository layout
 

@@ -12,8 +12,8 @@ sh scripts/preparar-ansible.sh
 
 echo "==> Chamando make instalar para aplicar o desktop"
 if [ "$(id -u)" -eq 0 ]; then
-    USUARIO=$(sed -n 's/^usuario_desktop:[[:space:]]*//p' inventarios/producao/host_vars/localhost.yml | head -n1)
-    [ -n "$USUARIO" ] || { echo "Erro: usuario_desktop não encontrado em host_vars/localhost.yml" >&2; exit 1; }
+    USUARIO=$(sed -n 's/^usuario_desktop:[[:space:]]*//p' .alpine-state/vars.yml | head -n1)
+    [ -n "$USUARIO" ] || { echo "Erro: usuario_desktop não encontrado em .alpine-state/vars.yml" >&2; exit 1; }
     echo "==> Executando como '$USUARIO' (o Ansible não roda como root)"
     su -s /bin/sh "$USUARIO" -c "cd '$PROJETO_DIR' && make instalar"
 else

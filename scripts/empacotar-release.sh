@@ -11,6 +11,7 @@ cp -a "$PROJETO_DIR/." "$ESTAGIO/alpine-desktop/"
 rm -rf "$ESTAGIO/alpine-desktop/.git" \
        "$ESTAGIO/alpine-desktop/.collections" \
        "$ESTAGIO/alpine-desktop/.cache" \
+       "$ESTAGIO/alpine-desktop/.alpine-state" \
        "$ESTAGIO/alpine-desktop/docs/evidencias"
 
 rm -f "$SAIDA"

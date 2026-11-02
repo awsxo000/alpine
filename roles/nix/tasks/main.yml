@@ -7,10 +7,11 @@
 - name: Ler grupos do sistema
   ansible.builtin.getent:
     database: group
+  register: nix_grupos_sistema
 
 - name: Descobrir grupo de acesso ao Nix
   ansible.builtin.set_fact:
-    nix_grupo: "{{ nix_grupos_candidatos | select('in', ansible_facts['getent_group']) | first | default('') }}"
+    nix_grupo: "{{ nix_grupos_candidatos | select('in', nix_grupos_sistema.ansible_facts.getent_group) | first | default('') }}"
 
 - name: Falhar se o grupo do Nix não existir
   ansible.builtin.assert:

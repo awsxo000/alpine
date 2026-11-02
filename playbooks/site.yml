@@ -1,6 +1,7 @@
 ---
 - name: Camada extra sobre o Alpine Desktop
   hosts: desktops
+  gather_facts: false
   pre_tasks:
     - name: Exigir usuario_desktop definido
       ansible.builtin.assert:

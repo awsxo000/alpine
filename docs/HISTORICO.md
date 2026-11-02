@@ -2,6 +2,13 @@
 
 Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, CORRIGIDO.
 
+## [2026-11-02] (validação e estado operacional)
+- RELEASE: v1.38 — estado externo, catálogo único e doas temporário.
+- CORRIGIDO: cache de fatos e collections deixaram de ser gravados dentro de `backend/`; o estado operacional agora fica em `.alpine-state/`.
+- ALTERADO: regra `doas nopass` não é mais permanente; as execuções Ansible usam wrapper temporário com remoção via `trap`.
+- ADICIONADO: `modulos.json` como catálogo único de chaves, títulos, tags, variáveis e dependências.
+- CORRIGIDO: checks opcionais não rebaixam mais o status geral do diagnóstico.
+
 ## [2026-11-02] (diagnóstico 2)
 - CORRIGIDO: diagnóstico de áudio agora usa `wpctl status` e `pactl info` como sinais principais da sessão PipeWire; processos individuais são complementares.
 - CORRIGIDO: checks de rede, Bluetooth e swap passaram a validar conteúdo consultado, reduzindo resultados positivos sem evidência operacional.

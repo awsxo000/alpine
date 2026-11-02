@@ -1,0 +1,13 @@
+[
+  {"key":"base","title":"Base","description":"Core Alpine desktop packages and privileges.","tag":"base","enable_var":null,"dependencies":[]},
+  {"key":"nix","title":"Nix","description":"Nix package manager and user profile integration.","tag":"nix","enable_var":null,"dependencies":[]},
+  {"key":"steam","title":"Steam","description":"Steam installation and desktop integration.","tag":"steam","enable_var":"steam_habilitado=true","dependencies":["nix","nix_opengl"]},
+  {"key":"nix_opengl","title":"Nix OpenGL","description":"Mesa/OpenGL integration for Nix applications.","tag":"nix_opengl","enable_var":"nix_opengl_habilitado=true","dependencies":["nix"]},
+  {"key":"rede","title":"Network","description":"NetworkManager and KDE network integration.","tag":"rede","enable_var":"rede_habilitada=true","dependencies":["base"]},
+  {"key":"bluetooth","title":"Bluetooth","description":"BlueZ and KDE Bluetooth integration.","tag":"bluetooth","enable_var":"bluetooth_habilitado=true","dependencies":["base"]},
+  {"key":"audio","title":"Audio","description":"PipeWire and WirePlumber user audio services.","tag":"audio","enable_var":"audio_habilitado=true","dependencies":["base"]},
+  {"key":"swap","title":"Swap","description":"Additional swapfile and hibernation support.","tag":"swap","enable_var":"swap_habilitada=true","dependencies":[]},
+  {"key":"energia","title":"Energy","description":"Elogind, polkit and desktop power actions.","tag":"energia","enable_var":"energia_habilitada=true","dependencies":["base"]},
+  {"key":"fontes","title":"Fonts","description":"Unicode, CJK, Japanese kanji and emoji coverage.","tag":"fontes","enable_var":"fontes_habilitadas=true","dependencies":["base"]},
+  {"key":"kde","title":"KDE","description":"KDE/OpenRC compatibility and System Monitor layout.","tag":"kde","enable_var":"kde_habilitado=true","dependencies":["base"]}
+]

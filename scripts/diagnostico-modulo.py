@@ -18,10 +18,19 @@ from pathlib import Path
 from typing import Callable
 
 SCHEMA_VERSION = 1
-MODULES = (
-    "base", "nix", "steam", "nix_opengl", "rede", "bluetooth", "audio",
-    "swap", "energia", "fontes", "kde",
-)
+CATALOG_PATH = Path(__file__).resolve().parents[1] / "modulos.json"
+
+
+def module_catalog() -> tuple[dict[str, object], ...]:
+    with CATALOG_PATH.open(encoding="utf-8") as stream:
+        catalog = json.load(stream)
+    if not isinstance(catalog, list) or not all(isinstance(item, dict) for item in catalog):
+        raise ValueError("modulos.json deve conter uma lista de módulos")
+    return tuple(catalog)
+
+
+MODULE_CATALOG = module_catalog()
+MODULES = tuple(str(item["key"]) for item in MODULE_CATALOG)
 
 
 @dataclass(frozen=True)
@@ -265,15 +274,19 @@ def diagnose(module: str) -> dict[str, object]:
     failed = sum(check["status"] == "error" for check in checks)
     warnings = sum(check["status"] == "warning" for check in checks)
     unknown = sum(check["status"] == "unknown" for check in checks)
-    if unknown and not required:
+    required_failed = any(check["status"] == "error" for check in required)
+    required_unknown = any(check["status"] == "unknown" for check in required)
+    required_passed = sum(check["status"] == "ok" for check in required)
+    if required_unknown and required_passed == 0:
         status = "unknown"
-    elif failed == 0 and unknown == 0:
+    elif not required_failed and not required_unknown:
         status = "complete"
-    elif passed > 0:
+    elif required_passed > 0:
         status = "partial"
     else:
         status = "incomplete"
-    dependencies = {"steam": ["nix", "nix_opengl"], "nix_opengl": ["nix"], "audio": ["base"], "bluetooth": ["base"], "rede": ["base"], "energia": ["base"], "fontes": ["base"], "kde": ["base"]}.get(module, [])
+    catalog_entry = next(item for item in MODULE_CATALOG if item["key"] == module)
+    dependencies = catalog_entry.get("dependencies", [])
     return {
         "schema_version": SCHEMA_VERSION,
         "module": module,
