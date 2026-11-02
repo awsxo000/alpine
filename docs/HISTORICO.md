@@ -133,6 +133,12 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - CORRIGIDO: configuração de hibernação preserva os parâmetros existentes do GRUB usando `\\g<1>`; não substitui mais a linha por um `\\1` literal.
 - CORRIGIDO: expressões regulares da role `swap` usam espaços corretamente ao atualizar `fstab` e parâmetros `resume`.
 
+## [2026-11-02] (37)
+- LIMPEZA: removida a coleção `ansible.posix`, que não era utilizada pelas roles.
+- LIMPEZA: removidos `playbooks/preparacao.yml` e o handler vazio da role `steam`.
+- ORGANIZAÇÃO: movido `logbtnotebook` para `docs/evidencias/bluetooth/`.
+- DOCUMENTAÇÃO: README e auditoria alinhados com `swap`, fontes habilitadas e hibernação dinâmica.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

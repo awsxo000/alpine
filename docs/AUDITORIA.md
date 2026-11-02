@@ -3,7 +3,7 @@
 ## Estado validado
 
 A etapa atual executa `base`, `nix`, `steam`, `nix_opengl`, `rede`, `bluetooth`,
-`audio` e `fontes`.
+`audio`, `swap`, `energia` e `fontes`.
 
 A role `rede` está validada no notebook de testes com NetworkManager, suporte
 Wi-Fi, `plasma-nm`, `eudev`, grupo `plugdev` e remoção dos serviços OpenRC
@@ -17,6 +17,9 @@ backend do NetworkManager, mas não deve ser iniciado como serviço standalone.
 - alinhado o `XDG_DATA_DIRS` da role `steam` com a integração Nix/Flatpak;
 - atualizado o README para refletir a rede na etapa atual;
 - mantidos os scripts independentes e as roles sem funções duplicadas;
+- removida a dependência não utilizada `ansible.posix`;
+- removidos o playbook preparatório legado e o handler vazio da role `steam`;
+- movido o log técnico solto para `docs/evidencias/bluetooth/`;
 - mantidos os arquivos `.gitkeep`, pois preservam a estrutura padrão das roles.
 
 ## Verificações estáticas
@@ -25,6 +28,7 @@ backend do NetworkManager, mas não deve ser iniciado como serviço standalone.
 - `git diff --check` sem erros;
 - variáveis do inventário referenciadas nas roles ou no playbook;
 - áudio e fontes são controlados por suas flags no inventário;
+- swap e hibernação usam descoberta dinâmica de UUID e `resume_offset`;
 - nenhum ZIP, cache, coleção Ansible ou `host_vars` gerado é versionado.
 
 ## Pontos intencionais

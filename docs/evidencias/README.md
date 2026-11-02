@@ -11,4 +11,5 @@ Organize as evidências por etapa, por exemplo:
 docs/evidencias/rede/
 docs/evidencias/audio/
 docs/evidencias/fontes/
+docs/evidencias/bluetooth/
 ```

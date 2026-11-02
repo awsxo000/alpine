@@ -21,7 +21,7 @@ This bootstraps `make`, Python, Ansible, the required collection and the first
 installation stage:
 
 ```text
-base → nix → steam → nix_opengl → rede → bluetooth → audio → energia
+base → nix → steam → nix_opengl → rede → bluetooth → audio → swap → energia → fontes
 ```
 
 To reapply the configuration:
@@ -36,10 +36,10 @@ To prepare dependencies without applying the desktop:
 make dependencias
 ```
 
-## Optional roles
+## Feature toggles
 
-Fonts remain disabled. NetworkManager, Bluetooth, PipeWire and SDDM power
-actions are the current validation stages:
+All integrated roles are enabled in the production inventory. NetworkManager,
+Bluetooth, PipeWire, fonts and SDDM power actions are independently controlled:
 
 ```yaml
 rede_habilitada: true
@@ -50,16 +50,17 @@ audio_habilitado: true
 
 energia_habilitada: true
 
-fontes_habilitadas: false
+fontes_habilitadas: true
 ```
 
 After applying the network, Bluetooth and audio stages, log out and back in so
 the `plugdev`, `lp` and `audio` groups and the PipeWire user services take
 effect in the desktop session.
 
-Hibernate requires swap and a matching kernel `resume=` parameter. The energy
-role checks these prerequisites but does not modify the bootloader
-automatically.
+The swap role creates an additional swapfile and, when hibernation is enabled,
+discovers the root UUID and swapfile offset before updating GRUB. No disk name
+is hardcoded. Disable `energia_habilitar_hibernacao` per host if its firmware or
+graphics drivers do not resume reliably.
 
 ## Refresh Nix Apps
 
