@@ -2,6 +2,10 @@
 
 Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, CORRIGIDO.
 
+## [2026-11-02] (diagnóstico 2)
+- CORRIGIDO: diagnóstico de áudio agora usa `wpctl status` e `pactl info` como sinais principais da sessão PipeWire; processos individuais são complementares.
+- CORRIGIDO: checks de rede, Bluetooth e swap passaram a validar conteúdo consultado, reduzindo resultados positivos sem evidência operacional.
+
 ## [2026-11-02] (novo)
 - ADICIONADO: `make diagnostico-modulo MODULO=<modulo>`, diagnóstico somente leitura com saída JSON versionada, verificações por componente e estados `ok`, `error`, `warning` e `unknown`.
 - DOCUMENTADO: contrato de diagnóstico em `docs/DIAGNOSTICO-MODULOS.md`, mantendo a aplicação Ansible separada da inspeção do sistema.

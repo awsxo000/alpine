@@ -65,10 +65,82 @@ def groups_for_user() -> set[str]:
 
 
 def process_running(name: str) -> bool:
-    if not command_exists("pgrep"):
+    if command_exists("pgrep"):
+        found = subprocess.run(["pgrep", "-x", name], stdout=subprocess.DEVNULL,
+                               stderr=subprocess.DEVNULL, check=False).returncode == 0
+        if found:
+            return True
+    if not command_exists("ps"):
         return False
-    return subprocess.run(["pgrep", "-x", name], stdout=subprocess.DEVNULL,
-                          stderr=subprocess.DEVNULL, check=False).returncode == 0
+    result = subprocess.run(["ps", "-eo", "comm="], capture_output=True, text=True, check=False)
+    return any(line.strip() == name for line in result.stdout.splitlines())
+
+
+def command_output(command: list[str]) -> tuple[int, str, str]:
+    completed = subprocess.run(command, capture_output=True, text=True, check=False)
+    return completed.returncode, completed.stdout, completed.stderr
+
+
+def audio_server_status() -> tuple[str, str]:
+    """Use session-level PipeWire APIs as the source of truth for audio."""
+    wpctl_ok = False
+    wpctl_output = ""
+    if command_exists("wpctl"):
+        code, stdout, stderr = command_output(["wpctl", "status"])
+        wpctl_output = stdout or stderr
+        wpctl_ok = code == 0 and "PipeWire" in wpctl_output
+
+    pactl_ok = False
+    pactl_output = ""
+    if command_exists("pactl"):
+        code, stdout, stderr = command_output(["pactl", "info"])
+        pactl_output = stdout or stderr
+        pactl_ok = code == 0 and "PipeWire" in pactl_output
+
+    if wpctl_ok and pactl_ok:
+        sinks = "Sinks:" in wpctl_output
+        sources = "Sources:" in wpctl_output
+        detail = "Servidor PipeWire acessível via wpctl e pactl"
+        if sinks or sources:
+            detail += "; dispositivos de áudio enumerados"
+        return "ok", detail + "."
+    if wpctl_ok or pactl_ok:
+        return "warning", "Servidor de áudio parcialmente acessível; uma das APIs da sessão não respondeu."
+    return "error", "Nenhum servidor PipeWire acessível via wpctl ou pactl."
+
+
+def network_devices_status() -> tuple[str, str]:
+    if not command_exists("nmcli"):
+        return "warning", "nmcli não encontrado; não foi possível consultar dispositivos."
+    code, stdout, stderr = command_output(["nmcli", "-t", "-f", "DEVICE,TYPE,STATE", "device"])
+    if code != 0:
+        return "warning", f"NetworkManager não respondeu à consulta: {(stderr or 'erro desconhecido').strip()}"
+    rows = [line for line in stdout.splitlines() if line.strip() and not line.startswith("--:")]
+    if rows:
+        return "ok", f"{len(rows)} dispositivo(s) reportado(s) pelo NetworkManager."
+    return "warning", "NetworkManager respondeu, mas não reportou dispositivos físicos."
+
+
+def bluetooth_controller_status() -> tuple[str, str]:
+    if not command_exists("bluetoothctl"):
+        return "warning", "bluetoothctl não encontrado; não foi possível consultar controladores."
+    code, stdout, stderr = command_output(["bluetoothctl", "list"])
+    controllers = [line for line in stdout.splitlines() if "Controller" in line]
+    if code == 0 and controllers:
+        return "ok", f"{len(controllers)} controlador(es) Bluetooth encontrado(s)."
+    return "warning", "Nenhum controlador Bluetooth foi enumerado."
+
+
+def swap_active_status() -> tuple[str, str]:
+    if Path("/proc/swaps").is_file():
+        entries = [line for line in Path("/proc/swaps").read_text(errors="replace").splitlines()[1:] if line.strip()]
+        if any(line.split()[0] == "/swapfile" for line in entries if line.split()):
+            return "ok", "Swapfile está ativa no kernel."
+    if command_exists("swapon"):
+        code, stdout, _ = command_output(["swapon", "--show"])
+        if code == 0 and "/swapfile" in stdout:
+            return "ok", "Swapfile está ativa."
+    return "error", "Swapfile não está ativa."
 
 
 def run_check(check: Check) -> dict[str, object]:
@@ -138,29 +210,30 @@ def checks_for(module: str) -> tuple[Check, ...]:
             Check("networkmanager_service", "NetworkManager ativo", "Serviço OpenRC da rede.", lambda: result(service_running("networkmanager"), "NetworkManager está ativo." if service_running("networkmanager") else "NetworkManager não está ativo.")),
             Check("udev", "eudev ativo", "Serviço de dispositivos do sistema.", lambda: result(service_running("udev"), "udev está ativo." if service_running("udev") else "udev não está ativo.")),
             Check("plugdev", "Usuário no grupo plugdev", "Permissão para integração de dispositivos de rede.", lambda: result("plugdev" in groups, "Usuário está no grupo plugdev." if "plugdev" in groups else "Usuário não está no grupo plugdev.")),
-            Check("managed_devices", "Dispositivos gerenciados", "NetworkManager reporta dispositivos gerenciados.", lambda: warning(command_exists("nmcli") and subprocess.run(["nmcli", "-t", "-f", "DEVICE", "device"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, check=False).returncode == 0, "Consulta de dispositivos concluída." if command_exists("nmcli") else "nmcli não encontrado."), required=False),
+            Check("managed_devices", "Dispositivos gerenciados", "NetworkManager reporta dispositivos gerenciados.", network_devices_status, required=False),
         )
     if module == "bluetooth":
         return (
             pkg("bluez", "BlueZ instalado"),
             Check("bluetooth_service", "Serviço Bluetooth ativo", "Serviço OpenRC bluetooth.", lambda: result(service_running("bluetooth"), "Bluetooth está ativo." if service_running("bluetooth") else "Bluetooth não está ativo.")),
-            Check("bluetooth_controller", "Controlador Bluetooth encontrado", "Controlador descoberto por bluetoothctl.", lambda: warning(command_exists("bluetoothctl") and subprocess.run(["bluetoothctl", "list"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, check=False).returncode == 0, "Controlador consultado." if command_exists("bluetoothctl") else "bluetoothctl não encontrado."), required=False),
+            Check("bluetooth_controller", "Controlador Bluetooth encontrado", "Controlador descoberto por bluetoothctl.", bluetooth_controller_status, required=False),
             Check("btusb", "Módulo btusb carregado", "Driver USB Bluetooth do kernel.", lambda: warning(Path("/sys/module/btusb").exists(), "btusb carregado." if Path("/sys/module/btusb").exists() else "btusb não está carregado."), required=False),
             Check("rfkill", "Rádio Bluetooth desbloqueado", "Estado de bloqueio por software.", lambda: warning(not (command_exists("rfkill") and subprocess.run(["rfkill", "list", "bluetooth"], stdout=subprocess.PIPE, text=True, check=False).stdout.lower().find("soft blocked: yes") >= 0), "Rádio desbloqueado ou estado indisponível."), required=False),
         )
     if module == "audio":
         return (
             pkg("pipewire", "PipeWire instalado"), pkg("wireplumber", "WirePlumber instalado"),
-            Check("pipewire_process", "PipeWire em execução", "Processo PipeWire do usuário.", lambda: result(process_running("pipewire"), "PipeWire está em execução." if process_running("pipewire") else "PipeWire não está em execução.")),
-            Check("wireplumber_process", "WirePlumber em execução", "Gerenciador de sessão do áudio.", lambda: result(process_running("wireplumber"), "WirePlumber está em execução." if process_running("wireplumber") else "WirePlumber não está em execução.")),
+            Check("audio_server", "Servidor PipeWire acessível", "Consulta a sessão real com wpctl e pactl.", audio_server_status),
+            Check("pipewire_process", "PipeWire em execução", "Processo PipeWire do usuário.", lambda: warning(process_running("pipewire"), "Processo PipeWire encontrado." if process_running("pipewire") else "Processo não localizado diretamente; a sessão será avaliada por wpctl/pactl."), required=False),
+            Check("wireplumber_process", "WirePlumber em execução", "Gerenciador de sessão do áudio.", lambda: warning(process_running("wireplumber"), "Processo WirePlumber encontrado." if process_running("wireplumber") else "Processo não localizado diretamente; a sessão será avaliada por wpctl/pactl."), required=False),
             Check("audio_group", "Usuário no grupo audio", "Permissão do usuário para áudio.", lambda: result("audio" in groups, "Usuário está no grupo audio." if "audio" in groups else "Usuário não está no grupo audio.")),
-            Check("pulse_compat", "Compatibilidade PulseAudio", "Servidor compatível consultável por pactl.", lambda: warning(command_exists("pactl") and subprocess.run(["pactl", "info"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False).returncode == 0, "Compatibilidade PulseAudio respondeu." if command_exists("pactl") else "pactl não encontrado; pode exigir novo login."), required=False),
+            Check("pulse_compat", "Compatibilidade PulseAudio", "Servidor compatível consultável por pactl.", lambda: warning(command_exists("pactl") and "PipeWire" in (command_output(["pactl", "info"])[1]), "Compatibilidade PulseAudio sobre PipeWire respondeu." if command_exists("pactl") else "pactl não encontrado; pode exigir novo login."), required=False),
         )
     if module == "swap":
         return (
             pkg("util-linux", "Utilitários de swap"),
             Check("swapfile", "Swapfile presente", "Arquivo /swapfile configurado pela role.", lambda: result(Path("/swapfile").is_file(), "Swapfile encontrado." if Path("/swapfile").is_file() else "Swapfile não encontrado.")),
-            Check("swap_active", "Swap ativa", "Swap atualmente disponível para o kernel.", lambda: result(command_exists("swapon") and subprocess.run(["swapon", "--show", "/swapfile"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False).returncode == 0, "Swapfile está ativa." if command_exists("swapon") else "swapon não encontrado.")),
+            Check("swap_active", "Swap ativa", "Swap atualmente disponível para o kernel.", swap_active_status),
             Check("fstab", "Swap registrada no fstab", "Entrada persistente em /etc/fstab.", lambda: result(Path("/etc/fstab").is_file() and "/swapfile" in Path("/etc/fstab").read_text(errors="replace"), "Swapfile registrada." if Path("/etc/fstab").is_file() and "/swapfile" in Path("/etc/fstab").read_text(errors="replace") else "Swapfile não registrada.")),
         )
     if module == "energia":

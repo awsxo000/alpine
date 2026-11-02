@@ -10,6 +10,13 @@ Os módulos aceitos são `base`, `nix`, `steam`, `nix_opengl`, `rede`, `bluetoot
 
 A saída padrão é JSON com `schema_version: 1`. O comando não executa Ansible, não instala pacotes, não altera serviços e não modifica arquivos do sistema. Ele apenas consulta o estado atual.
 
+O módulo `audio` considera a sessão PipeWire funcional quando `wpctl status`
+e/ou `pactl info` conseguem acessar o servidor e identificar PipeWire. A
+presença de processos via `pgrep` é apenas complementar, pois os serviços de
+áudio podem ser iniciados na sessão do usuário e não como serviços OpenRC
+tradicionais. Os checks de rede, Bluetooth e swap também validam o conteúdo da
+consulta, não somente o código de saída do executável.
+
 ## Contrato
 
 Cada resultado contém:
