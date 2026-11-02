@@ -21,7 +21,7 @@ This bootstraps `make`, Python, Ansible, the required collection and the first
 installation stage:
 
 ```text
-base → nix → steam → nix_opengl → rede → bluetooth → audio → swap → energia → fontes
+base → nix → steam → nix_opengl → rede → bluetooth → audio → swap → energia → fontes → kde
 ```
 
 To reapply the configuration:

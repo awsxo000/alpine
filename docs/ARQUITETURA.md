@@ -20,12 +20,12 @@ sobre o musl do Alpine.
 7. **audio** – PipeWire + WirePlumber
 8. **energia** – elogind + polkit + ações de energia no SDDM
 9. **fontes** – conjunto de fontes
+10. **kde** – ajustes de compatibilidade do KDE para OpenRC
 
 ## Etapas de ativação
 
 A primeira execução habilita `base`, `nix`, `steam`, `nix_opengl`, `rede`,
-`bluetooth`, `audio` e `energia`. A role `fontes` permanece desabilitada até a
-validação das etapas anteriores.
+`bluetooth`, `audio`, `swap`, `energia`, `fontes` e `kde`.
 
 ## Convenções
 - Uma role = uma responsabilidade; variáveis ajustáveis em `group_vars`, padrões em `defaults/`.

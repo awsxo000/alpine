@@ -12,6 +12,7 @@
 | energia | elogind, elogind-openrc, polkit-elogind, polkit-openrc | elogind, polkit | `energia_habilitada`, `energia_configurar_sddm`, `energia_habilitar_hibernacao`, `energia_usuario_login` |
 | swap | util-linux, e2fsprogs, e2fsprogs-extra | — | `swap_habilitada`, `swapfile_caminho`, `swapfile_tamanho_gib`, `swapfile_prioridade`, `energia_habilitar_hibernacao` |
 | fontes | fontconfig, font-dejavu, font-liberation, font-noto, font-noto-cjk, font-noto-emoji, font-noto-extra, font-inter, font-jetbrains-mono | — | `fontes_habilitadas`, `fontes_pacotes_extras` |
+| kde | — | — | `kde_habilitado`, `kde_system_monitor_ocultar_aplicacoes`, `kde_system_monitor_config` |
 
 ## Arquivos gerenciados no alvo
 - `/etc/nix/nix.conf`, `/etc/profile.d/nix-desktop.sh`
@@ -19,6 +20,7 @@
 - `/etc/apk/repositories` (só descomenta o `community`)
 - `~/.config/nixpkgs/config.nix`, `~/.cache/nix-roots/mesa{64,32}` (não apagar)
 - `/etc/local.d/opengl-drivers.start`, links `/run/opengl-driver{,-32}`
+- `~/.config/systemmonitorrc` (oculta a página `Applications` incompatível com OpenRC)
 
 ## Referência validada à mão
 `docs/referencia/guia-instalacao-manual.md` (Alpine 3.24.3, Nix 2.31.5, KDE, usuário `saw`).

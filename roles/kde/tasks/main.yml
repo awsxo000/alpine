@@ -1,0 +1,44 @@
+---
+- name: Garantir diretório de configuração do KDE
+  ansible.builtin.file:
+    path: "{{ usuario_desktop_home }}/.config"
+    state: directory
+    owner: "{{ usuario_desktop }}"
+    group: "{{ usuario_desktop }}"
+    mode: "0755"
+
+- name: Ocultar página Applications do System Monitor
+  community.general.ini_file:
+    path: "{{ kde_system_monitor_config }}"
+    section: General
+    option: hiddenPages
+    value: applications.page
+    mode: "0644"
+    owner: "{{ usuario_desktop }}"
+    group: "{{ usuario_desktop }}"
+    no_extra_spaces: true
+  when: kde_system_monitor_ocultar_aplicacoes | bool
+
+- name: Definir Overview como página inicial do System Monitor
+  community.general.ini_file:
+    path: "{{ kde_system_monitor_config }}"
+    section: General
+    option: startPage
+    value: overview.page
+    mode: "0644"
+    owner: "{{ usuario_desktop }}"
+    group: "{{ usuario_desktop }}"
+    no_extra_spaces: true
+  when: kde_system_monitor_ocultar_aplicacoes | bool
+
+- name: Definir Overview como última página válida do System Monitor
+  community.general.ini_file:
+    path: "{{ kde_system_monitor_config }}"
+    section: General
+    option: lastVisitedPage
+    value: overview.page
+    mode: "0644"
+    owner: "{{ usuario_desktop }}"
+    group: "{{ usuario_desktop }}"
+    no_extra_spaces: true
+  when: kde_system_monitor_ocultar_aplicacoes | bool

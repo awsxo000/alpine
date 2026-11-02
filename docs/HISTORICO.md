@@ -143,6 +143,10 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - UX: reduzida a saída padrão do Ansible, ocultando resultados `ok`, `skipped` e diagnósticos extensos.
 - ADICIONADO: `make diagnostico` para executar com detalhes completos quando necessário.
 
+## [2026-11-02] (39)
+- ADICIONADO: role `kde` para ocultar a página `Applications` do System Monitor em instalações Alpine com OpenRC.
+- CONFIGURADO: `Overview` como página inicial e última página válida do System Monitor, evitando reabrir a tela incompatível.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

@@ -18,3 +18,4 @@
     - { role: swap,       tags: [swap],   when: swap_habilitada | bool }
     - { role: energia,    tags: [energia], when: energia_habilitada | bool }
     - { role: fontes,     tags: [fontes], when: fontes_habilitadas | bool }
+    - { role: kde,        tags: [kde],     when: kde_habilitado | bool }

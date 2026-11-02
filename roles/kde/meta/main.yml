@@ -1,0 +1,10 @@
+---
+galaxy_info:
+  role_name: kde
+  author: projeto
+  description: Ajustes de compatibilidade do KDE Plasma no Alpine com OpenRC
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - { name: Alpine, versions: [all] }
+dependencies: []
