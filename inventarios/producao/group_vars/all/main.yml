@@ -43,6 +43,7 @@ audio_habilitado: true                 # etapa atual: PipeWire + WirePlumber
 # ===== Energia / SDDM =====
 energia_habilitada: true                # elogind + polkit + ações no login
 energia_configurar_sddm: true
+energia_habilitar_hibernacao: true      # configura resume dinamicamente quando swapfile estiver disponível
 
 # ===== Swap adicional =====
 swap_habilitada: true

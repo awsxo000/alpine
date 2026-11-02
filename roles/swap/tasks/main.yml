@@ -74,6 +74,101 @@
   ansible.builtin.command: "swapon --priority {{ swapfile_prioridade }} {{ swapfile_caminho }}"
   when: swapfile_caminho not in swap_ativas.stdout_lines
 
+- name: Configurar hibernação dinamicamente quando habilitada
+  when: energia_habilitar_hibernacao | default(false) | bool
+  block:
+    - name: Localizar o dispositivo que contém a raiz
+      ansible.builtin.command: findmnt -no SOURCE /
+      register: swap_raiz_dispositivo
+      changed_when: false
+
+    - name: Obter UUID atual da partição raiz
+      ansible.builtin.command: "blkid -o value -s UUID {{ swap_raiz_dispositivo.stdout | trim }}"
+      register: swap_raiz_uuid
+      changed_when: false
+
+    - name: Calcular o primeiro offset físico do swapfile
+      ansible.builtin.shell: >-
+        /usr/sbin/filefrag -v {{ swapfile_caminho | quote }} |
+        awk '$1 ~ /^0:$/ {gsub(/\.\./, "", $4); print $4; exit}'
+      args:
+        executable: /bin/sh
+      register: swapfile_resume_offset
+      changed_when: false
+
+    - name: Validar dados de retomada descobertos
+      ansible.builtin.assert:
+        that:
+          - swap_raiz_dispositivo.stdout | trim | length > 0
+          - swap_raiz_uuid.stdout | trim | length > 0
+          - swapfile_resume_offset.stdout | trim | int > 0
+        fail_msg: >-
+          Não foi possível descobrir dispositivo, UUID da raiz ou offset físico
+          do swapfile. A hibernação não será configurada automaticamente.
+
+    - name: Verificar se o GRUB possui configuração editável
+      ansible.builtin.stat:
+        path: /etc/default/grub
+      register: swap_grub_defaults
+
+    - name: Verificar se grub-mkconfig está disponível
+      ansible.builtin.shell: command -v grub-mkconfig
+      args:
+        executable: /bin/sh
+      register: swap_grub_mkconfig
+      changed_when: false
+      failed_when: false
+
+    - name: Exigir GRUB configurável para habilitar hibernação
+      ansible.builtin.assert:
+        that:
+          - swap_grub_defaults.stat.exists
+          - swap_grub_mkconfig.rc == 0
+        fail_msg: >-
+          Hibernação habilitada, mas /etc/default/grub ou grub-mkconfig não está
+          disponível. Nenhuma configuração de boot foi alterada.
+
+    - name: Verificar se os parâmetros resume atuais já estão corretos
+      ansible.builtin.shell: >-
+        grep -Fq
+        'resume=UUID={{ swap_raiz_uuid.stdout | trim }} resume_offset={{ swapfile_resume_offset.stdout | trim }}'
+        /etc/default/grub
+      args:
+        executable: /bin/sh
+      register: swap_resume_atual
+      changed_when: false
+      failed_when: false
+
+    - name: Remover parâmetros resume antigos do GRUB
+      ansible.builtin.replace:
+        path: /etc/default/grub
+        regexp: '\\s+resume(?:_offset)?=[^"\\s]+'
+        replace: ''
+        backup: true
+      when: swap_resume_atual.rc != 0
+
+    - name: Adicionar parâmetros resume dinâmicos ao GRUB
+      ansible.builtin.replace:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="([^"]*)"$'
+        replace: >-
+          GRUB_CMDLINE_LINUX_DEFAULT="\\1 resume=UUID={{ swap_raiz_uuid.stdout | trim }}
+          resume_offset={{ swapfile_resume_offset.stdout | trim }}"
+        backup: true
+      when: swap_resume_atual.rc != 0
+
+    - name: Reconstruir configuração do GRUB
+      ansible.builtin.command: grub-mkconfig -o /boot/grub/grub.cfg
+      register: swap_grub_resultado
+      changed_when: true
+      when: swap_resume_atual.rc != 0
+
+    - name: Exibir parâmetros de retomada configurados
+      ansible.builtin.debug:
+        msg:
+          - "resume=UUID={{ swap_raiz_uuid.stdout | trim }}"
+          - "resume_offset={{ swapfile_resume_offset.stdout | trim }}"
+
 - name: Exibir o resultado da configuração de swap
   ansible.builtin.command: swapon --show
   register: swap_resultado

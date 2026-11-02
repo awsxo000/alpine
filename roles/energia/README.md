@@ -3,11 +3,13 @@
 Integrates elogind and polkit with SDDM so the login screen can expose local
 power actions without granting the `sddm` user general root access.
 
-By default, the rule permits suspend, reboot and power-off. Hibernation,
-hybrid sleep and suspend-then-hibernate are disabled because they require a
-properly sized persistent swap and a valid kernel resume configuration. It does
-not change the system doas policy.
+The rule permits suspend, reboot and power-off. Hibernation, hybrid sleep and
+suspend-then-hibernate are controlled by `energia_habilitar_hibernacao`. When it
+is enabled, the `swap` role discovers the root filesystem UUID and the physical
+offset of `/swapfile`, then configures GRUB without assuming a fixed disk name.
+The rule does not change the system doas policy.
 
-Set `energia_habilitar_hibernacao: true` only after configuring a suitable swap
-partition or file and a matching kernel `resume=` parameter. The role reports
-swap and `loginctl` capabilities but does not alter the bootloader automatically.
+The production inventory enables hibernation after creating the 12 GiB swapfile.
+The role reports swap and `loginctl` capabilities and updates GRUB only when
+hibernation is enabled. If a machine has a problematic firmware or graphics
+driver, set `energia_habilitar_hibernacao: false` for that host.

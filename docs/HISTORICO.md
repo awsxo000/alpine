@@ -122,6 +122,10 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - ADICIONADO: role `swap`, que preserva a partição existente e cria uma swapfile adicional de 12 GiB.
 - ADICIONADO: validação de espaço livre, permissões `0600`, persistência no `fstab` e ativação sem reinicialização.
 
+## [2026-11-02] (34)
+- ADICIONADO: descoberta dinâmica da UUID da raiz e do offset físico do `/swapfile` para hibernação.
+- ALTERADO: a configuração do GRUB não assume mais `/dev/sdb3`; o disco pode mudar entre máquinas.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,
