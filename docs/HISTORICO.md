@@ -3,6 +3,7 @@
 Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, CORRIGIDO.
 
 ## [2026-11-02] (validação e estado operacional)
+- ADICIONADO: alvos `atualizar-canal-nix` e `atualizar-aplicativos-nix`, separados da aplicação das roles.
 - RELEASE: v1.38 — estado externo, catálogo único e doas temporário.
 - CORRIGIDO: alvos de aplicação agora preparam automaticamente `.alpine-state` quando a release ainda não foi inicializada.
 - CORRIGIDO: preparação, collections e instalador agora usam a mesma `.alpine-state` na raiz da release, não `backend/.alpine-state`.

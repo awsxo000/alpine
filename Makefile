@@ -1,8 +1,9 @@
 .DEFAULT_GOAL := ajuda
-.PHONY: ajuda dependencias preparar preparar-estado sintaxe lint simular diagnostico diagnostico-modulo aplicar aplicar-modulo instalar
+.PHONY: ajuda dependencias preparar preparar-estado sintaxe lint simular diagnostico diagnostico-modulo aplicar aplicar-modulo atualizar-canal-nix atualizar-aplicativos-nix atualizar-nix instalar
 
 ANSIBLE_STATE_VARS = -e @../.alpine-state/vars.yml
 TEMP_DOAS = scripts/executar-com-doas-temporario.sh
+NIX_UPDATE = scripts/atualizar-nix.sh
 
 ajuda:        ## Lista os comandos
 	@grep -E '^[a-z_-]+:.*##' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  %-14s %s\n", $$1, $$2}'
@@ -29,6 +30,12 @@ diagnostico:  ## Aplica tudo exibindo diagnósticos detalhados
 diagnostico-modulo: ## Diagnóstico somente leitura em JSON (use MODULO=audio)
 	@test -n "$(MODULO)" || (echo "Uso: make diagnostico-modulo MODULO=audio" >&2; exit 2)
 	@python3 scripts/diagnostico-modulo.py "$(MODULO)" --json
+atualizar-canal-nix: ## Atualiza os canais Nix do usuário
+	$(NIX_UPDATE) canal
+atualizar-aplicativos-nix: ## Atualiza todos os aplicativos do perfil Nix
+	$(NIX_UPDATE) aplicativos
+atualizar-nix: ## Atualiza canal e aplicativos Nix
+	$(NIX_UPDATE) tudo
 aplicar:      ## Prepara o estado se necessário e aplica tudo
 	$(MAKE) preparar-estado
 	$(TEMP_DOAS) ansible-playbook playbooks/site.yml $(ANSIBLE_STATE_VARS)

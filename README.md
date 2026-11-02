@@ -99,6 +99,18 @@ dedicated `doas nopass` rule only for the duration of the command and remove it
 with a trap on success, failure or interruption; no permanent nopass rule is
 installed by the bootstrap.
 
+## Updating Nix
+
+The backend exposes explicit user-level operations separate from Ansible:
+
+```sh
+make atualizar-canal-nix       # nix-channel --update
+make atualizar-aplicativos-nix # nix-env -u '*' (or nix profile upgrade)
+make atualizar-nix             # both operations in sequence
+```
+
+These commands do not use `doas`, change Alpine packages or execute roles.
+
 ## Repository layout
 
 ```text
