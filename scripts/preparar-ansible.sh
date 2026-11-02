@@ -4,8 +4,9 @@ set -eu
 # Prepara a máquina local antes de executar um playbook Ansible.
 # O estado gerado fica em .alpine-state, fora do backend versionado.
 # A regra doas nopass é criada somente pelo wrapper de cada execução.
-PROJETO_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-cd "$PROJETO_DIR"
+BACKEND_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+PROJETO_DIR=$(CDPATH= cd -- "$BACKEND_DIR/.." && pwd)
+cd "$BACKEND_DIR"
 
 if ! command -v apk >/dev/null 2>&1; then
     echo "Erro: este script precisa ser executado em um sistema Alpine Linux." >&2
@@ -79,9 +80,9 @@ printf 'Ansible: '; ansible-playbook --version | sed -n '1p'
 
 echo "==> Instalando a coleção community.general em .alpine-state/collections"
 if [ "$(id -u)" -eq 0 ]; then
-    su -s /bin/sh "$USUARIO_ALVO" -c "cd '$PROJETO_DIR' && ansible-galaxy collection install -r requirements.yml -p .alpine-state/collections"
+    su -s /bin/sh "$USUARIO_ALVO" -c "cd '$BACKEND_DIR' && ansible-galaxy collection install -r requirements.yml -p ../.alpine-state/collections"
 else
-    ansible-galaxy collection install -r requirements.yml -p .alpine-state/collections
+    ansible-galaxy collection install -r requirements.yml -p ../.alpine-state/collections
 fi
 
 echo "==> Preparação do Ansible concluída"

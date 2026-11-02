@@ -5,6 +5,7 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 ## [2026-11-02] (validação e estado operacional)
 - RELEASE: v1.38 — estado externo, catálogo único e doas temporário.
 - CORRIGIDO: alvos de aplicação agora preparam automaticamente `.alpine-state` quando a release ainda não foi inicializada.
+- CORRIGIDO: preparação, collections e instalador agora usam a mesma `.alpine-state` na raiz da release, não `backend/.alpine-state`.
 - CORRIGIDO: cache de fatos e collections deixaram de ser gravados dentro de `backend/`; o estado operacional agora fica em `.alpine-state/`.
 - ALTERADO: regra `doas nopass` não é mais permanente; as execuções Ansible usam wrapper temporário com remoção via `trap`.
 - ADICIONADO: `modulos.json` como catálogo único de chaves, títulos, tags, variáveis e dependências.
