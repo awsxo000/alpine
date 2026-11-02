@@ -118,6 +118,10 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - ALTERADO: hibernação, hybrid sleep e suspend-then-hibernate ficam desabilitados por padrão na role `energia`.
 - ADICIONADO: variável `energia_habilitar_hibernacao`, que permite reativar essas ações somente após configurar swap e `resume=` adequados.
 
+## [2026-11-01] (33)
+- ADICIONADO: role `swap`, que preserva a partição existente e cria uma swapfile adicional de 12 GiB.
+- ADICIONADO: validação de espaço livre, permissões `0600`, persistência no `fstab` e ativação sem reinicialização.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

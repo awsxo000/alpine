@@ -1,0 +1,8 @@
+---
+swap_habilitada: true
+swapfile_caminho: /swapfile
+swapfile_tamanho_gib: 12
+swapfile_reserva_livre_gib: 2
+swapfile_prioridade: -1
+swap_pacotes:
+  - util-linux

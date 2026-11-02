@@ -15,5 +15,6 @@
     - { role: rede,       tags: [rede],   when: rede_habilitada | bool }
     - { role: bluetooth,  tags: [bluetooth], when: bluetooth_habilitado | bool }
     - { role: audio,      tags: [audio],  when: audio_habilitado | bool }
+    - { role: swap,       tags: [swap],   when: swap_habilitada | bool }
     - { role: energia,    tags: [energia], when: energia_habilitada | bool }
     - { role: fontes,     tags: [fontes], when: fontes_habilitadas | bool }

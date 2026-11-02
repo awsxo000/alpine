@@ -44,6 +44,13 @@ audio_habilitado: true                 # etapa atual: PipeWire + WirePlumber
 energia_habilitada: true                # elogind + polkit + ações no login
 energia_configurar_sddm: true
 
+# ===== Swap adicional =====
+swap_habilitada: true
+swapfile_caminho: /swapfile
+swapfile_tamanho_gib: 12
+swapfile_reserva_livre_gib: 2
+swapfile_prioridade: -1
+
 # ===== Fontes extras (apk) =====
 fontes_habilitadas: true               # cobertura Unicode, CJK e emoji
 fontes_pacotes_extras: []

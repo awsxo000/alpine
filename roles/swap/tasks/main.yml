@@ -1,0 +1,84 @@
+---
+- name: Instalar utilitários para administrar a swap
+  community.general.apk:
+    name: "{{ swap_pacotes }}"
+    state: present
+
+- name: Consultar o arquivo de swap adicional
+  ansible.builtin.stat:
+    path: "{{ swapfile_caminho }}"
+  register: swapfile_stat
+
+- name: Consultar espaço livre na partição raiz
+  ansible.builtin.command: df -Pk /
+  register: swap_df
+  changed_when: false
+
+- name: Impedir criação sem espaço livre reservado
+  ansible.builtin.assert:
+    that:
+      - (swap_df.stdout_lines[1].split()[3] | int) >= ((swapfile_tamanho_gib + swapfile_reserva_livre_gib) * 1048576)
+    fail_msg: >-
+      Espaço livre insuficiente em /. São necessários pelo menos
+      {{ swapfile_tamanho_gib + swapfile_reserva_livre_gib }} GiB para criar
+      {{ swapfile_caminho }} e manter a reserva de segurança.
+
+- name: Recusar swapfile existente menor que o tamanho configurado
+  ansible.builtin.assert:
+    that:
+      - swapfile_stat.stat.size >= (swapfile_tamanho_gib * 1073741824)
+    fail_msg: >-
+      {{ swapfile_caminho }} já existe com tamanho insuficiente. Nenhum arquivo
+      será apagado ou redimensionado automaticamente.
+  when: swapfile_stat.stat.exists
+
+- name: Criar swapfile adicional
+  ansible.builtin.command: "fallocate -l {{ swapfile_tamanho_gib }}G {{ swapfile_caminho }}"
+  when: not swapfile_stat.stat.exists
+
+- name: Restringir acesso à swapfile
+  ansible.builtin.file:
+    path: "{{ swapfile_caminho }}"
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Verificar assinatura da swapfile
+  ansible.builtin.command: "blkid -o value -s TYPE {{ swapfile_caminho }}"
+  register: swapfile_tipo
+  changed_when: false
+  failed_when: false
+
+- name: Inicializar a swapfile
+  ansible.builtin.command: "mkswap -L alpine-swapfile {{ swapfile_caminho }}"
+  when: swapfile_tipo.stdout | trim != 'swap'
+
+- name: Registrar a swapfile no fstab
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    regexp: '^{{ swapfile_caminho | regex_escape }}\\s'
+    line: "{{ swapfile_caminho }} none swap defaults,pri={{ swapfile_prioridade }} 0 0"
+    state: present
+    create: true
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Consultar swaps ativas
+  ansible.builtin.command: swapon --show=NAME --noheadings
+  register: swap_ativas
+  changed_when: false
+  failed_when: false
+
+- name: Ativar a swapfile sem reiniciar
+  ansible.builtin.command: "swapon --priority {{ swapfile_prioridade }} {{ swapfile_caminho }}"
+  when: swapfile_caminho not in swap_ativas.stdout_lines
+
+- name: Exibir o resultado da configuração de swap
+  ansible.builtin.command: swapon --show
+  register: swap_resultado
+  changed_when: false
+
+- name: Diagnóstico da swap
+  ansible.builtin.debug:
+    msg: "{{ swap_resultado.stdout_lines }}"
