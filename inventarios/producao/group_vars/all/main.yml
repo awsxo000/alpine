@@ -6,6 +6,7 @@
 # NÃO defina aqui: scripts/preparar-ansible.sh detecta o usuário da máquina e grava
 # `usuario_desktop` em inventarios/producao/host_vars/localhost.yml.
 usuario_desktop_home: "/home/{{ usuario_desktop }}"
+desktop_mostrar_diagnosticos: false    # use make diagnostico para exibir detalhes
 
 # ===== Nix =====
 nix_canal_nome: nixpkgs

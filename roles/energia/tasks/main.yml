@@ -56,3 +56,4 @@
       - "Swap: {{ energia_swap.stdout | default('not checked') | trim | default('none', true) }}"
       - "{{ energia_capacidades.results | map(attribute='stdout') | list }}"
       - "A regra SDDM limita energia ao usuário {{ energia_usuario_login }}."
+  when: desktop_mostrar_diagnosticos | default(false) | bool

@@ -30,6 +30,14 @@ To reapply the configuration:
 make aplicar
 ```
 
+The normal execution uses compact output and hides successful and skipped task
+details. To inspect service, network, Bluetooth, audio and swap diagnostics,
+run the explicit verbose target:
+
+```sh
+make diagnostico
+```
+
 To prepare dependencies without applying the desktop:
 
 ```sh

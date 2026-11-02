@@ -184,6 +184,7 @@
         msg:
           - "resume=UUID={{ swap_raiz_uuid.stdout | trim }}"
           - "resume_offset={{ swapfile_resume_offset.stdout | trim }}"
+      when: desktop_mostrar_diagnosticos | default(false) | bool
 
 - name: Exibir o resultado da configuração de swap
   ansible.builtin.command: swapon --show
@@ -193,3 +194,4 @@
 - name: Diagnóstico da swap
   ansible.builtin.debug:
     msg: "{{ swap_resultado.stdout_lines }}"
+  when: desktop_mostrar_diagnosticos | default(false) | bool

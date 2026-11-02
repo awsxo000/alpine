@@ -77,3 +77,4 @@
       - "{{ rede_status_networkmanager.stdout | default('status unavailable') }}"
       - "{{ rede_status_nmcli.stdout | default('nmcli unavailable') }}"
       - "{{ rede_dispositivos_nmcli.stdout | default('device list unavailable') }}"
+  when: desktop_mostrar_diagnosticos | default(false) | bool

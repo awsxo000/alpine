@@ -58,3 +58,4 @@
       - "{{ audio_status_runlevels.stdout | default('user runlevels unavailable') }}"
       - "{{ audio_status_wpctl.stdout | default('PipeWire session unavailable until relogin') }}"
       - "{{ audio_status_pactl.stdout | default('PulseAudio compatibility unavailable until relogin') }}"
+  when: desktop_mostrar_diagnosticos | default(false) | bool

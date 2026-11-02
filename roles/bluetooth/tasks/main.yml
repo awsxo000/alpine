@@ -95,3 +95,4 @@
       - "{{ bluetooth_status_service.stdout | default('service status unavailable') }}"
       - "{{ bluetooth_status_rfkill.stdout | default('rfkill unavailable') }}"
       - "{{ bluetooth_status_controllers.stdout | default('no controller detected') }}"
+  when: desktop_mostrar_diagnosticos | default(false) | bool
