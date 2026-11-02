@@ -2,6 +2,10 @@
 
 Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, CORRIGIDO.
 
+## [2026-11-02] (novo)
+- ADICIONADO: `make diagnostico-modulo MODULO=<modulo>`, diagnóstico somente leitura com saída JSON versionada, verificações por componente e estados `ok`, `error`, `warning` e `unknown`.
+- DOCUMENTADO: contrato de diagnóstico em `docs/DIAGNOSTICO-MODULOS.md`, mantendo a aplicação Ansible separada da inspeção do sistema.
+
 ## [2026-10-31] (6)
 - ADICIONADO: role `steam`, que instala a Steam pelo canal Nixpkgs com pacotes não livres habilitados.
 - ALTERADO: configuração de produção agora habilita `nix_permitir_nao_livres` e a preparação OpenGL por padrão.
