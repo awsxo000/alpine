@@ -10,7 +10,7 @@
 | bluetooth | bluez, bluez-openrc, bluedevil, util-linux-misc, kmod | bluetooth | `bluetooth_habilitado`, `bluetooth_auto_enable`, `bluetooth_userspace_hid`, `bluetooth_instalar_pipewire_spa_bluez` |
 | audio | pipewire, pipewire-openrc, wireplumber, wireplumber-openrc, pipewire-pulse, pipewire-pulse-openrc, pipewire-alsa, pipewire-jack, pavucontrol-qt | serviços OpenRC do usuário | `audio_pacotes`, `audio_runlevels_usuario` |
 | energia | elogind, elogind-openrc, polkit-elogind, polkit-openrc | elogind, polkit | `energia_habilitada`, `energia_configurar_sddm`, `energia_habilitar_hibernacao`, `energia_usuario_login` |
-| swap | util-linux, e2fsprogs | — | `swap_habilitada`, `swapfile_caminho`, `swapfile_tamanho_gib`, `swapfile_prioridade`, `energia_habilitar_hibernacao` |
+| swap | util-linux, e2fsprogs, e2fsprogs-extra | — | `swap_habilitada`, `swapfile_caminho`, `swapfile_tamanho_gib`, `swapfile_prioridade`, `energia_habilitar_hibernacao` |
 | fontes | fontconfig, font-dejavu, font-liberation, font-noto, font-noto-cjk, font-noto-emoji, font-noto-extra, font-inter, font-jetbrains-mono | — | `fontes_habilitadas`, `fontes_pacotes_extras` |
 
 ## Arquivos gerenciados no alvo

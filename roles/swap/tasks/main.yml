@@ -87,9 +87,25 @@
       register: swap_raiz_uuid
       changed_when: false
 
+    - name: Localizar o executável filefrag
+      ansible.builtin.shell: command -v filefrag
+      args:
+        executable: /bin/sh
+      register: swap_filefrag_bin
+      changed_when: false
+      failed_when: false
+
+    - name: Exigir filefrag para calcular o offset do swapfile
+      ansible.builtin.assert:
+        that:
+          - swap_filefrag_bin.rc == 0
+        fail_msg: >-
+          O comando filefrag não está disponível. O pacote
+          e2fsprogs-extra é necessário para configurar a retomada da hibernação.
+
     - name: Calcular o primeiro offset físico do swapfile
       ansible.builtin.shell: >-
-        /usr/sbin/filefrag -v {{ swapfile_caminho | quote }} |
+        {{ swap_filefrag_bin.stdout | trim }} -v {{ swapfile_caminho | quote }} |
         awk '$1 ~ /^0:$/ {gsub(/\.\./, "", $4); print $4; exit}'
       args:
         executable: /bin/sh

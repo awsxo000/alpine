@@ -126,6 +126,9 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - ADICIONADO: descoberta dinâmica da UUID da raiz e do offset físico do `/swapfile` para hibernação.
 - ALTERADO: a configuração do GRUB não assume mais `/dev/sdb3`; o disco pode mudar entre máquinas.
 
+## [2026-11-02] (35)
+- CORRIGIDO: role `swap` instala `e2fsprogs-extra` e localiza `filefrag` dinamicamente antes de calcular `resume_offset`.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,

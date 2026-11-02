@@ -7,3 +7,4 @@ swapfile_prioridade: -1
 swap_pacotes:
   - util-linux
   - e2fsprogs
+  - e2fsprogs-extra
