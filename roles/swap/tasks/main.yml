@@ -56,7 +56,7 @@
 - name: Registrar a swapfile no fstab
   ansible.builtin.lineinfile:
     path: /etc/fstab
-    regexp: '^{{ swapfile_caminho | regex_escape }}\\s'
+    regexp: '^{{ swapfile_caminho | regex_escape }}[[:space:]]'
     line: "{{ swapfile_caminho }} none swap defaults,pri={{ swapfile_prioridade }} 0 0"
     state: present
     create: true
@@ -158,7 +158,7 @@
     - name: Remover parâmetros resume antigos do GRUB
       ansible.builtin.replace:
         path: /etc/default/grub
-        regexp: '\\s+resume(?:_offset)?=[^"\\s]+'
+        regexp: '[[:space:]]+resume(?:_offset)?=[^"[:space:]]+'
         replace: ''
         backup: true
       when: swap_resume_atual.rc != 0
@@ -168,7 +168,7 @@
         path: /etc/default/grub
         regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="([^"]*)"$'
         replace: >-
-          GRUB_CMDLINE_LINUX_DEFAULT="\\1 resume=UUID={{ swap_raiz_uuid.stdout | trim }}
+          GRUB_CMDLINE_LINUX_DEFAULT="\g<1> resume=UUID={{ swap_raiz_uuid.stdout | trim }}
           resume_offset={{ swapfile_resume_offset.stdout | trim }}"
         backup: true
       when: swap_resume_atual.rc != 0

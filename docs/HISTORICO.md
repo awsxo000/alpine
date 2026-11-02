@@ -129,6 +129,10 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 ## [2026-11-02] (35)
 - CORRIGIDO: role `swap` instala `e2fsprogs-extra` e localiza `filefrag` dinamicamente antes de calcular `resume_offset`.
 
+## [2026-11-02] (36)
+- CORRIGIDO: configuração de hibernação preserva os parâmetros existentes do GRUB usando `\\g<1>`; não substitui mais a linha por um `\\1` literal.
+- CORRIGIDO: expressões regulares da role `swap` usam espaços corretamente ao atualizar `fstab` e parâmetros `resume`.
+
 ## [2026-10-31] (5)
 - ALTERADO: projeto inteiro em português — roles `common`→`base`, `network`→`rede`, `fonts`→`fontes`;
   pastas `inventories/production`→`inventarios/producao`, `docs/decisions`→`docs/decisoes`,
