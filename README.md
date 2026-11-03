@@ -111,6 +111,19 @@ make atualizar-nix             # both operations in sequence
 
 These commands do not use `doas`, change Alpine packages or execute roles.
 
+The project interface exposes only the official Stable channel. To inspect or
+migrate it manually through the backend:
+
+```sh
+make verificar-canal-stable-nix
+make migrar-canal-stable-nix
+```
+
+The migration checks the official status page, changes the `nixpkgs` channel
+to the latest `nixos-YY.MM` Stable release, updates it, and records the selected
+version in `.alpine-state/vars.yml`. Unstable channels are intentionally not
+offered by the project.
+
 ## Repository layout
 
 ```text
