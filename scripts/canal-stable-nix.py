@@ -63,7 +63,7 @@ def report() -> dict[str, object]:
             "source": STATUS_URL,
         }
     except (OSError, urllib.error.URLError, ValueError) as exc:
-        return {"status": "unknown", "message": f"Não foi possível consultar os canais Stable: {exc}"}
+        return {"status": "unknown", "message": f"Could not query Stable channels: {exc}"}
 
 
 def migrate() -> int:
@@ -75,10 +75,10 @@ def migrate() -> int:
     current = result.get("current_version")
     if current == latest:
         print(json.dumps(result, ensure_ascii=False, indent=2))
-        print(f"Canal Stable já está em nixos-{latest}.")
+        print(f"Stable channel is already at nixos-{latest}.")
         return 0
     url = CHANNEL_BASE.format(latest)
-    print(f"==> Migrando o canal Stable: nixos-{current or 'desconhecido'} -> nixos-{latest}")
+    print(f"==> Migrating Stable channel: nixos-{current or 'desconhecido'} -> nixos-{latest}")
     subprocess.run(["nix-channel", "--add", url, "nixpkgs"], check=True)
     subprocess.run(["nix-channel", "--update", "nixpkgs"], check=True)
     STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -91,13 +91,13 @@ def migrate() -> int:
     if not replaced:
         lines.append(f'nix_canal_versao: "{latest}"')
     STATE_FILE.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
-    print(f"Canal Stable atualizado para nixos-{latest}.")
+    print(f"Stable channel updated to nixos-{latest}.")
     return 0
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 2 or sys.argv[1] not in {"verificar", "migrar"}:
-        raise SystemExit("Uso: canal-stable-nix.py verificar|migrar")
+        raise SystemExit("Usage: canal-stable-nix.py verificar|migrar")
     if sys.argv[1] == "verificar":
         print(json.dumps(report(), ensure_ascii=False, indent=2))
         raise SystemExit(0)

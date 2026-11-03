@@ -8,11 +8,11 @@ if [ "$#" -eq 0 ]; then
     exit 2
 fi
 if [ "$(id -u)" -eq 0 ]; then
-    echo "Erro: execute este wrapper como o usuário do desktop, não como root." >&2
+    echo "Error: run this wrapper as the desktop user, not as root." >&2
     exit 1
 fi
 if ! command -v doas >/dev/null 2>&1; then
-    echo "Erro: doas não está disponível." >&2
+    echo "Error: doas is not available." >&2
     exit 1
 fi
 

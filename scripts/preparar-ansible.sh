@@ -26,16 +26,16 @@ detectar_usuario() {
 
 USUARIO_ALVO=$(detectar_usuario)
 if [ -z "$USUARIO_ALVO" ] || [ "$USUARIO_ALVO" = "root" ]; then
-    echo "Erro: não consegui detectar o usuário do desktop." >&2
+    echo "Error: could not detect the desktop user." >&2
     echo "      Rode: USUARIO_DESKTOP=seu_usuario sh scripts/preparar-ansible.sh" >&2
     exit 1
 fi
 if ! id "$USUARIO_ALVO" >/dev/null 2>&1; then
-    echo "Erro: o usuário '$USUARIO_ALVO' não existe neste sistema." >&2
+    echo "Error: user '$USUARIO_ALVO' does not exist on this system." >&2
     exit 1
 fi
 USUARIO_HOME=$(awk -F: -v u="$USUARIO_ALVO" '$1 == u { print $6 }' /etc/passwd)
-echo "==> Usuário do desktop: $USUARIO_ALVO (home: ${USUARIO_HOME:-?})"
+echo "==> Desktop user: $USUARIO_ALVO (home: ${USUARIO_HOME:-?})"
 
 if [ "$(id -u)" -eq 0 ]; then
     PRIVILEGIO=""
@@ -78,11 +78,11 @@ command -v ansible-galaxy >/dev/null
 printf 'Python: '; python3 --version
 printf 'Ansible: '; ansible-playbook --version | sed -n '1p'
 
-echo "==> Instalando a coleção community.general em .alpine-state/collections"
+echo "==> Installing community.general collection in .alpine-state/collections"
 if [ "$(id -u)" -eq 0 ]; then
     su -s /bin/sh "$USUARIO_ALVO" -c "cd '$BACKEND_DIR' && ansible-galaxy collection install -r requirements.yml -p ../.alpine-state/collections"
 else
     ansible-galaxy collection install -r requirements.yml -p ../.alpine-state/collections
 fi
 
-echo "==> Preparação do Ansible concluída"
+echo "==> Ansible preparation completed"
