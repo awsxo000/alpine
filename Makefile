@@ -2,7 +2,7 @@
 .PHONY: ajuda dependencias preparar preparar-estado sintaxe lint simular diagnostico diagnostico-modulo verificar-canal-stable-nix migrar-canal-stable-nix aplicar aplicar-modulo atualizar-canal-nix atualizar-aplicativos-nix atualizar-nix instalar
 
 ANSIBLE_STATE_VARS = -e @../.alpine-state/vars.yml
-TEMP_DOAS = scripts/executar-com-doas-temporario.sh
+ANSIBLE_RUNNER = scripts/executar-ansible-autorizado.sh
 NIX_UPDATE = scripts/atualizar-nix.sh
 STABLE_CHANNEL = scripts/canal-stable-nix.py
 
@@ -24,10 +24,10 @@ lint:         ## Roda o ansible-lint
 	ansible-lint
 simular:      ## Simulação (dry-run) mostrando diferenças
 	$(MAKE) preparar-estado
-	$(TEMP_DOAS) ansible-playbook playbooks/site.yml --check --diff $(ANSIBLE_STATE_VARS)
+	$(ANSIBLE_RUNNER) ansible-playbook playbooks/site.yml --check --diff $(ANSIBLE_STATE_VARS)
 diagnostico:  ## Aplica tudo exibindo diagnósticos detalhados
 	$(MAKE) preparar-estado
-	$(TEMP_DOAS) ansible-playbook playbooks/site.yml -e desktop_mostrar_diagnosticos=true -vv $(ANSIBLE_STATE_VARS)
+	$(ANSIBLE_RUNNER) ansible-playbook playbooks/site.yml -e desktop_mostrar_diagnosticos=true -vv $(ANSIBLE_STATE_VARS)
 diagnostico-modulo: ## Diagnóstico somente leitura em JSON (use MODULO=audio)
 	@test -n "$(MODULO)" || (echo "Uso: make diagnostico-modulo MODULO=audio" >&2; exit 2)
 	@python3 scripts/diagnostico-modulo.py "$(MODULO)" --json
@@ -43,10 +43,10 @@ atualizar-nix: ## Atualiza canal e aplicativos Nix
 	$(NIX_UPDATE) tudo
 aplicar:      ## Prepara o estado se necessário e aplica tudo
 	$(MAKE) preparar-estado
-	$(TEMP_DOAS) ansible-playbook playbooks/site.yml $(ANSIBLE_STATE_VARS)
+	$(ANSIBLE_RUNNER) ansible-playbook playbooks/site.yml $(ANSIBLE_STATE_VARS)
 aplicar-modulo: ## Aplica um módulo (use MODULO=audio)
 	@test -n "$(MODULO)" || (echo "Uso: make aplicar-modulo MODULO=audio" >&2; exit 2)
 	$(MAKE) preparar-estado
-	$(TEMP_DOAS) ansible-playbook playbooks/site.yml --tags "$(MODULO)" $(ANSIBLE_STATE_VARS)
+	$(ANSIBLE_RUNNER) ansible-playbook playbooks/site.yml --tags "$(MODULO)" $(ANSIBLE_STATE_VARS)
 instalar:     ## Prepara o Ansible e instala todo o desktop
 	$(MAKE) aplicar

@@ -2,6 +2,12 @@
 
 Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, CORRIGIDO.
 
+## [2026-11-05] (autorização privilegiada)
+- CORRIGIDO: operações Ansible autorizam uma única execução root via doas no terminal do sistema; não gravam regra `nopass` temporária.
+- CORRIGIDO: o executor remove os dois drop-ins amplos conhecidos das versões anteriores antes de chamar Ansible e falha fechado se a limpeza não puder ser concluída.
+- ALTERADO: o Ansible usa `su` para alternar entre root e o usuário desktop dentro do playbook.
+- ADICIONADO: teste de regressão e CI para impedir a reintrodução do fluxo `nopass`.
+
 ## [2026-11-02] (validação e estado operacional)
 - ADICIONADO: consulta e migração confirmada somente para o canal Stable oficial; `unstable` não faz parte da interface.
 - ALTERADO: verificação Stable usa a API oficial de métricas, sem depender do HTML dinâmico da página de status.

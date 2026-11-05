@@ -3,7 +3,7 @@ set -eu
 
 # Prepara a máquina local antes de executar um playbook Ansible.
 # O estado gerado fica em .alpine-state, fora do backend versionado.
-# A regra doas nopass é criada somente pelo wrapper de cada execução.
+# Operações privilegiadas usam autorização doas explícita no terminal do sistema.
 BACKEND_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 PROJETO_DIR=$(CDPATH= cd -- "$BACKEND_DIR/.." && pwd)
 cd "$BACKEND_DIR"

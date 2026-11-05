@@ -94,10 +94,14 @@ sh /tmp/install-refresh-nix-apps.sh
 ## Privilege model
 
 The bootstrap prepares `.alpine-state/vars.yml` and installs collections under
-`.alpine-state/`, outside the versioned backend. Ansible executions create a
-dedicated `doas nopass` rule only for the duration of the command and remove it
-with a trap on success, failure or interruption; no permanent nopass rule is
-installed by the bootstrap.
+`.alpine-state/`, outside the versioned backend. Each privileged Ansible
+operation is launched in a visible system terminal and makes one `doas -u root`
+transition; enter any password only in that terminal. The operation does not
+write a `nopass` rule. Before running Ansible, the authorized helper removes the
+two broad project-owned drop-ins used by older releases and aborts if cleanup
+fails. Ansible then uses `su` for its become transitions inside the authorized
+root process. A normal, working doas authorization for the desktop user is
+required.
 
 ## Updating Nix
 
@@ -146,3 +150,7 @@ To create a Release package locally:
 ```sh
 sh scripts/empacotar-release.sh /tmp/alpine-desktop-release.zip
 ```
+
+## License
+
+This repository is licensed under the MIT License. See [LICENSE](LICENSE).
