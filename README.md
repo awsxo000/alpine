@@ -44,6 +44,12 @@ To prepare dependencies without applying the desktop:
 make dependencias
 ```
 
+Before installing packages from the configured Nix channel, the role verifies
+that the user's local channel content exists. If a previous `nix-channel
+--update` failed (for example, because the VM clock made TLS certificates
+appear not yet valid), the next application retries the download instead of
+failing later with an unavailable attribute such as `nixpkgs.steam`.
+
 ## Feature toggles
 
 All integrated roles are enabled in the production inventory. NetworkManager,

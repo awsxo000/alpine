@@ -114,13 +114,18 @@
   register: nix_canal_alterado
   changed_when: true
 
+- name: Verificar se o conteúdo do canal existe no perfil do usuário
+  ansible.builtin.stat:
+    path: "{{ usuario_desktop_home }}/.nix-defexpr/channels/{{ nix_canal_nome }}"
+  register: nix_canal_cache
+
 - name: Atualizar canais
   ansible.builtin.command: nix-channel --update
   become: true
   become_user: "{{ usuario_desktop }}"
   environment:
     HOME: "{{ usuario_desktop_home }}"
-  when: nix_canal_alterado is changed
+  when: nix_canal_alterado is changed or not nix_canal_cache.stat.exists
   changed_when: true
 
 - name: Listar pacotes do perfil Nix

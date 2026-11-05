@@ -8,6 +8,8 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - ALTERADO: o Ansible usa `su` para alternar entre root e o usuário desktop dentro do playbook.
 - ADICIONADO: teste de regressão e CI para impedir a reintrodução do fluxo `nopass`.
 - CORRIGIDO: os alvos Make passam o caminho do playbook ao wrapper (que já executa `ansible-playbook`), removendo o argumento duplicado que fazia Ansible procurar um playbook chamado literalmente `ansible-playbook`.
+- CORRIGIDO: após falha de rede/TLS em `nix-channel --update`, uma nova aplicação verifica a presença do conteúdo local do canal e tenta baixá-lo novamente mesmo que a URL já esteja cadastrada; evita falha posterior como `attribute 'nixpkgs' not found` na role Steam.
+- ADICIONADO: regressão para o retry do canal Nix quando a configuração persistiu, mas o cache local não foi materializado.
 
 ## [2026-11-02] (validação e estado operacional)
 - ADICIONADO: consulta e migração confirmada somente para o canal Stable oficial; `unstable` não faz parte da interface.

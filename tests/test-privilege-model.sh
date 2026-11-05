@@ -6,6 +6,7 @@ MAKEFILE="$ROOT/Makefile"
 CONFIG="$ROOT/ansible.cfg"
 RUNNER="$ROOT/scripts/executar-ansible-autorizado.sh"
 BOOTSTRAP="$ROOT/scripts/preparar-ansible.sh"
+NIX_TASKS="$ROOT/roles/nix/tasks/main.yml"
 
 fail() {
     echo "FAIL: $*" >&2
@@ -54,4 +55,13 @@ grep -Fq 'DOAS=/usr/bin/doas' "$RUNNER" || \
 grep -Eq 'become_method[[:space:]]*=[[:space:]]*su' "$CONFIG" || \
     fail "Ansible must switch users with su after the one-shot root authorization"
 
-printf '%s\n' 'PASS: privileged Ansible operations use one-shot authorization; no NOPASS rule is created; legacy rules are removed before execution.'
+# A prior channel update may fail after nix-channel --add has persisted the URL.
+# A later run must retry the download when the user's channel cache is absent.
+grep -Fq 'path: "{{ usuario_desktop_home }}/.nix-defexpr/channels/{{ nix_canal_nome }}"' "$NIX_TASKS" || \
+    fail "Nix role does not check whether the configured channel was downloaded"
+grep -Fq 'register: nix_canal_cache' "$NIX_TASKS" || \
+    fail "Nix channel cache stat result is not registered"
+grep -Fq 'when: nix_canal_alterado is changed or not nix_canal_cache.stat.exists' "$NIX_TASKS" || \
+    fail "Nix channel update will not retry after an incomplete first download"
+
+printf '%s\n' 'PASS: privileged operations use one-shot authorization; legacy NOPASS rules are removed; Nix channel download retries when local cache is missing.'
