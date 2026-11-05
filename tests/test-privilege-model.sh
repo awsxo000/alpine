@@ -16,8 +16,19 @@ fail() {
 sh -n "$RUNNER" || fail "authorized Ansible runner has invalid shell syntax"
 
 # Every system-changing Ansible target must pass through the same one-shot runner.
-[ "$(grep -Fc '$(ANSIBLE_RUNNER) ansible-playbook' "$MAKEFILE")" -eq 4 ] || \
+[ "$(grep -Fc '$(ANSIBLE_RUNNER) playbooks/site.yml' "$MAKEFILE")" -eq 4 ] || \
     fail "expected four privileged Make targets to use ANSIBLE_RUNNER"
+if grep -Fq '$(ANSIBLE_RUNNER) ansible-playbook' "$MAKEFILE"; then
+    fail "runner must receive the playbook path, not the ansible-playbook executable name"
+fi
+for target in simular diagnostico aplicar aplicar-modulo; do
+    dry_run=$(make -C "$ROOT" -n "$target" MODULO=audio) || fail "make -n failed for $target"
+    printf '%s\n' "$dry_run" | grep -Fq 'scripts/executar-ansible-autorizado.sh playbooks/site.yml' || \
+        fail "$target does not pass playbooks/site.yml as the runner's first argument"
+    if printf '%s\n' "$dry_run" | grep -Fq 'scripts/executar-ansible-autorizado.sh ansible-playbook'; then
+        fail "$target still passes the executable name as a playbook"
+    fi
+done
 grep -Fq 'ANSIBLE_RUNNER = scripts/executar-ansible-autorizado.sh' "$MAKEFILE" || \
     fail "Makefile does not point to the authorized runner"
 if grep -Fq 'TEMP_DOAS' "$MAKEFILE" || grep -Fq 'executar-com-doas-temporario' "$MAKEFILE"; then

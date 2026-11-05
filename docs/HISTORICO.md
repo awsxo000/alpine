@@ -7,6 +7,7 @@ Formato: `[data] tipo: descrição` — tipos: ADICIONADO, ALTERADO, REMOVIDO, C
 - CORRIGIDO: o executor remove os dois drop-ins amplos conhecidos das versões anteriores antes de chamar Ansible e falha fechado se a limpeza não puder ser concluída.
 - ALTERADO: o Ansible usa `su` para alternar entre root e o usuário desktop dentro do playbook.
 - ADICIONADO: teste de regressão e CI para impedir a reintrodução do fluxo `nopass`.
+- CORRIGIDO: os alvos Make passam o caminho do playbook ao wrapper (que já executa `ansible-playbook`), removendo o argumento duplicado que fazia Ansible procurar um playbook chamado literalmente `ansible-playbook`.
 
 ## [2026-11-02] (validação e estado operacional)
 - ADICIONADO: consulta e migração confirmada somente para o canal Stable oficial; `unstable` não faz parte da interface.

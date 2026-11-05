@@ -24,10 +24,10 @@ lint:         ## Roda o ansible-lint
 	ansible-lint
 simular:      ## Simulação (dry-run) mostrando diferenças
 	$(MAKE) preparar-estado
-	$(ANSIBLE_RUNNER) ansible-playbook playbooks/site.yml --check --diff $(ANSIBLE_STATE_VARS)
+	$(ANSIBLE_RUNNER) playbooks/site.yml --check --diff $(ANSIBLE_STATE_VARS)
 diagnostico:  ## Aplica tudo exibindo diagnósticos detalhados
 	$(MAKE) preparar-estado
-	$(ANSIBLE_RUNNER) ansible-playbook playbooks/site.yml -e desktop_mostrar_diagnosticos=true -vv $(ANSIBLE_STATE_VARS)
+	$(ANSIBLE_RUNNER) playbooks/site.yml -e desktop_mostrar_diagnosticos=true -vv $(ANSIBLE_STATE_VARS)
 diagnostico-modulo: ## Diagnóstico somente leitura em JSON (use MODULO=audio)
 	@test -n "$(MODULO)" || (echo "Uso: make diagnostico-modulo MODULO=audio" >&2; exit 2)
 	@python3 scripts/diagnostico-modulo.py "$(MODULO)" --json
@@ -43,10 +43,10 @@ atualizar-nix: ## Atualiza canal e aplicativos Nix
 	$(NIX_UPDATE) tudo
 aplicar:      ## Prepara o estado se necessário e aplica tudo
 	$(MAKE) preparar-estado
-	$(ANSIBLE_RUNNER) ansible-playbook playbooks/site.yml $(ANSIBLE_STATE_VARS)
+	$(ANSIBLE_RUNNER) playbooks/site.yml $(ANSIBLE_STATE_VARS)
 aplicar-modulo: ## Aplica um módulo (use MODULO=audio)
 	@test -n "$(MODULO)" || (echo "Uso: make aplicar-modulo MODULO=audio" >&2; exit 2)
 	$(MAKE) preparar-estado
-	$(ANSIBLE_RUNNER) ansible-playbook playbooks/site.yml --tags "$(MODULO)" $(ANSIBLE_STATE_VARS)
+	$(ANSIBLE_RUNNER) playbooks/site.yml --tags "$(MODULO)" $(ANSIBLE_STATE_VARS)
 instalar:     ## Prepara o Ansible e instala todo o desktop
 	$(MAKE) aplicar
